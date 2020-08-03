@@ -17,3 +17,8 @@ Sample data sets:
 (iii) data set "urine" from R package boot [logistic regression]
 
 (iv) poissonData.RData [Poisson regression]
+    y: count of planes touching down inside of a 15 min observation interval [1]
+    x1: standardised start of 15 min observation interval [h]
+    x2: standardised estimated Beaufort wind force scale number [1]
+    x3: standardised wind direction [1]
+    gp: day-of-week ID: Monday (1) to Sunday (7)

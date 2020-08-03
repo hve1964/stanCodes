@@ -159,24 +159,24 @@ ppc_dens_overlay(
 ) # "bayesplot"
 ppc_hist(
   y = dataList$y ,
-  yrep = draws[6:10, 8:84] ,
+  yrep = draws[6:10,] ,
   binwidth = 0.1
 )  # "bayesplot"
 ppc_stat(
   y = dataList$y ,
-  yrep = draws[, 8:84] ,
+  yrep = draws ,
   stat = "max" ,
   binwidth = 0.1
 )
 ppc_stat(
   y = dataList$y ,
-  yrep = draws[, 8:84] ,
+  yrep = draws ,
   stat = "mean" ,
   binwidth = 0.05
 )
 ppc_intervals(
   y = dataList$y ,
-  yrep = draws[, 8:84] , 
+  yrep = draws , 
   prob = 0.5,
   prob_outer = 0.89 ,
   size = 1 ,

@@ -18,7 +18,7 @@ model {
   /* Fixed log-priors (regularising) */
   target += normal_lpdf ( beta | 0 , 1 );
     
-  /* Poisson log-likelihood w/ exponential inverse link */
+  /* Exponential log-likelihood w/ exponential inverse link */
   target += exponential_lpdf( y | exp(X * beta) );
 }
 

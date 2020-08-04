@@ -22,3 +22,9 @@ Sample data sets:
     x2: standardised estimated Beaufort wind force scale number [1]
     x3: standardised wind direction [1]
     gp: day-of-week ID: Monday (1) to Sunday (7)
+
+(v) tramWait.RData [Exponential regression]
+    y: waiting time [min] for tram to arrive at stop
+    x1: standardised number of tram conductors [1] available on tram line on day of observation
+    x2: standardised number of passengers [1] having left or entered tram at previous stops
+    gp: tram line number

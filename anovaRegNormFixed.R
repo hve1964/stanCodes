@@ -145,14 +145,14 @@ ppc_stat_grouped(
   group = dataList$gp ,
   stat = "max" ,
   binwidth = 0.05
-)
+) # "bayesplot"
 ppc_stat_grouped(
   y = dataList$y ,
   yrep = draws ,
   group = dataList$gp ,
   stat = "mean" ,
   binwidth = 0.05
-)
+) # "bayesplot"
 ppc_intervals_grouped(
   y = dataList$y ,
   yrep = draws ,
@@ -161,7 +161,7 @@ ppc_intervals_grouped(
   prob_outer = 0.89 ,
   size = 1 ,
   fatten = 3
-)
+) # "bayesplot"
 
 ################################################################################
 ################################################################################

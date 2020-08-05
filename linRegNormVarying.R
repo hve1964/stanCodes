@@ -104,14 +104,14 @@ dim(modelStan)
 #-------------------------------------------------------------------------------
 print(
   x = modelStan ,
-  pars = c("beta", "gamma", "Rho", "sigma", "lp__") ,
+  pars = c("beta", "gamma", "R", "sigma", "lp__") ,
   probs = c(0.015, 0.25, 0.50, 0.75, 0.985)
 )
 
 check_hmc_diagnostics(modelStan)
 stan_trace(
   object = modelStan ,
-  pars = c("beta", "gamma", "Rho", "sigma", "lp__") ,
+  pars = c("beta", "gamma", "R", "sigma", "lp__") ,
   inc_warmup = TRUE
 )  # "rstan"
 stan_plot(
@@ -122,13 +122,13 @@ stan_plot(
 )  # "rstan"
 stan_plot(
   object = modelStan ,
-  pars = c("Rho") ,
+  pars = c("R") ,
   ci_level = 0.89 ,
   outer_level = 0.97
 )  # "rstan"
 stan_dens(
   object = modelStan ,
-  pars = c("beta", "gamma", "Rho", "sigma", "lp__")
+  pars = c("beta", "gamma", "R", "sigma", "lp__")
 )  # "rstan"
 
 plot_title <- ggtitle( "Posterior marginal distributions" ,

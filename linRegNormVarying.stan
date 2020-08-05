@@ -21,25 +21,25 @@ parameters {
 
   /* Cholesky decomposition of covariance matrix */
   vector<lower=0>[M] sigma_beta;
-  cholesky_factor_corr[M] L_Rho;
+  cholesky_factor_corr[M] L_R;
 }
 
 transformed parameters {
   matrix[K, M] beta;
 
   /* Correlated varying intercepts and slopes */
-  beta = u * gamma + ( diag_pre_multiply( sigma_beta , L_Rho ) * z_beta )';
+  beta = u * gamma + ( diag_pre_multiply( sigma_beta , L_R ) * z_beta )';
 }
 
 model {
   /* Fixed log-priors for unobserved variables (regularising) */
   target += normal_lpdf( to_vector(gamma) | 0 , 1 );
-  target += exponential_lpdf( sigma | 1 );
   target += normal_lpdf( to_vector(z_beta) | 0 , 1 );
+  target += exponential_lpdf( sigma | 1 );
 
   /* Fixed log-priors for Cholesky decomposition of covariance matrix */
   target += exponential_lpdf( sigma_beta | 1 );
-  target += lkj_corr_cholesky_lpdf( L_Rho | 2 );
+  target += lkj_corr_cholesky_lpdf( L_R | 2 );
     
   /* Gauss log-likelihood w/ identity link */
   target += normal_lpdf( y | rows_dot_product( beta[gp] , X ) , sigma );
@@ -48,10 +48,10 @@ model {
 generated quantities {
   vector[N] yrep;
   vector[N] log_lik;
-  matrix[M, M] Rho;
+  matrix[M, M] R;
 
   /* Reconstruction of correlation matrix */
-  Rho = multiply_lower_tri_self_transpose(L_Rho);
+  R = multiply_lower_tri_self_transpose(L_R);
 
   /* Posterior predictive distribution (re-using predictor data)
      and calculation of pointwise log-likelihood */

@@ -17,11 +17,11 @@ parameters {
   /* Unobserved variables */
   matrix[L, M] gamma;    // group coefficients
   real<lower=0> sigma;
+  matrix[M, K] z_beta;
 
   /* Cholesky decomposition of covariance matrix */
   vector<lower=0>[M] sigma_beta;
   cholesky_factor_corr[M] L_Rho;
-  matrix[M, K] z_beta;
 }
 
 transformed parameters {
@@ -35,11 +35,11 @@ model {
   /* Fixed log-priors for unobserved variables (regularising) */
   target += normal_lpdf( to_vector(gamma) | 0 , 1 );
   target += exponential_lpdf( sigma | 1 );
+  target += normal_lpdf( to_vector(z_beta) | 0 , 1 );
 
   /* Fixed log-priors for Cholesky decomposition of covariance matrix */
   target += exponential_lpdf( sigma_beta | 1 );
   target += lkj_corr_cholesky_lpdf( L_Rho | 2 );
-  target += normal_lpdf( to_vector(z_beta) | 0 , 1 );
     
   /* Gauss log-likelihood w/ identity link */
   target += normal_lpdf( y | rows_dot_product( beta[gp] , X ) , sigma );

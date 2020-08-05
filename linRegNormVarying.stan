@@ -16,8 +16,8 @@ data {
 parameters {
   /* Unobserved variables */
   matrix[L, M] gamma;    // group coefficients
-  real<lower=0> sigma;
   matrix[M, K] z_beta;
+  real<lower=0> sigma;
 
   /* Cholesky decomposition of covariance matrix */
   vector<lower=0>[M] sigma_beta;

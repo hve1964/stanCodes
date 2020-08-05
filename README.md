@@ -3,7 +3,7 @@ Stan codes accompanying online lecture notes on Inductive Statistical Inference 
 
 Sample data sets:
 
-(i) ashenfelter.RData (Ashenfelter, Ashmore and Lalonde, http://www.liquidasset.com/) [linear regression]
+(i) ashenfelter.RData (Ashenfelter, Ashmore and Lalonde, http://www.liquidasset.com/) [linear regression (fixed effects)]
     y: standardised logarithm of average vintage wine price relative to 1961 vintage [1];
     x1: standardised winter (October-March) rain [ml];
     x2: standardised average temperature April-September [°C];
@@ -28,3 +28,5 @@ Sample data sets:
     x1: standardised number of tram conductors [1] available on tram line on day of observation;
     x2: standardised number of passengers [1] having left or entered tram at previous stops;
     gp: tram line number
+
+(vi) data set "iris" from R package datasets [linear regression (varying effects)]

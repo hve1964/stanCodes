@@ -64,7 +64,7 @@ rm( tramWait , X , Z )
 #-------------------------------------------------------------------------------
 # Fitting a Stan model: Poisson likelihood w/ log link and fixed priors
 #-------------------------------------------------------------------------------
-mod1.stan <- stan(
+modelStan <- stan(
   file = "expRegFixed.stan" ,
   data = dataList ,
   chains = 4 ,
@@ -78,62 +78,64 @@ mod1.stan <- stan(
   cores = 3
 )
 
-class(mod1.stan)
-dim(mod1.stan)
+class(modelStan)
+dim(modelStan)
 
 #-------------------------------------------------------------------------------
 # Summary and MCMC diagnostics
 #-------------------------------------------------------------------------------
 print(
-  x = mod1.stan ,
+  x = modelStan ,
   pars = c("beta", "lp__") ,
   probs = c(0.015, 0.25, 0.50, 0.75, 0.985)
 )
 
-check_hmc_diagnostics(mod1.stan)
+check_hmc_diagnostics(modelStan)
 stan_trace(
-  object = mod1.stan ,
+  object = modelStan ,
   pars = c("beta", "lp__") ,
   inc_warmup = TRUE
 )  # "rstan"
 stan_plot(
-  object = mod1.stan ,
+  object = modelStan ,
   pars = c("beta") ,
   ci_level = 0.89 ,
   outer_level = 0.97
 )  # "rstan"
 stan_dens(
-  object = mod1.stan ,
+  object = modelStan ,
   pars = c("beta", "lp__")
 )  # "rstan"
 
 plot_title <- ggtitle( "Posterior marginal distributions" ,
                        "with medians and 89% intervals")
 mcmc_areas(
-  x = mod1.stan ,
+  x = modelStan ,
   regex_pars = c("beta") ,
   prob = 0.89
 ) + plot_title
+# bayesplot"
 
-np <- nuts_params(mod1.stan)
+np <- nuts_params(modelStan)
 mcmc_nuts_energy(np) + ggtitle("NUTS Energy Diagnostic")
+# bayesplot"
 
 pairs(
-  x = mod1.stan ,
+  x = modelStan ,
   pars = c("beta")
 )  # "rstan"
 
 mcmc_scatter(
-  x = as.matrix(mod1.stan) ,
+  x = as.matrix(modelStan) ,
   pars = c("beta[1]", "beta[2]")
 )  # bayesplot"
 mcmc_scatter(
-  x = as.matrix(mod1.stan) ,
+  x = as.matrix(modelStan) ,
   pars = c("beta[2]", "beta[3]")
 )  # bayesplot"
 
 mcmc_hex(
-  x = as.matrix(mod1.stan) ,
+  x = as.matrix(modelStan) ,
   pars = c("beta[1]", "beta[3]")
 )  # bayesplot"
 
@@ -141,7 +143,7 @@ mcmc_hex(
 # Posterior predictive checks
 #-------------------------------------------------------------------------------
 draws <- as.matrix(
-  mod1.stan ,
+  modelStan ,
   pars = "yrep"
 )
 class(draws)
@@ -164,13 +166,13 @@ ppc_stat(
   yrep = draws ,
   stat = "max" ,
   binwidth = 1
-)
+)  # bayesplot"
 ppc_stat(
   y = dataList$y ,
   yrep = draws ,
   stat = "mean" ,
   binwidth = 0.1
-)
+)  # bayesplot"
 ppc_intervals(
   y = dataList$y ,
   yrep = draws , 

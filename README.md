@@ -14,7 +14,7 @@ Sample data sets:
     y: body mass [kg];
     gp: year of observation
 
-(iii) data set "urine" from R package boot [logistic regression]
+(iii) data set "urine" from R package boot [logistic regression (fixed effects)]
 
 (iv) poissonData.RData [Poisson regression]
     y: count of planes touching down inside of a 15 min observation interval [1];

@@ -1,6 +1,6 @@
 ################################################################################
 # Lecture notes: test of logistReg Stan code (fixed priors)
-# Mo, 03.08.2020
+# Mi, 05.08.2020
 # Data: "urine" from boot package
 ################################################################################
 
@@ -16,6 +16,7 @@ library(bayesplot)
 options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 Sys.setenv(LOCAL_CPPFLAGS = "-march=corei7 -mtune=corei7")
+stan_version()
 
 #-------------------------------------------------------------------------------
 # Load data
@@ -23,6 +24,7 @@ Sys.setenv(LOCAL_CPPFLAGS = "-march=corei7 -mtune=corei7")
 library(boot)
 data("urine")
 attach(urine)
+?urine
 str(urine)
 head(urine)
 any( is.na(urine) ) # Checking for missing values in the data matrix
@@ -44,10 +46,11 @@ head(Z)
 #-------------------------------------------------------------------------------
 # Design matrix
 #-------------------------------------------------------------------------------
-X <- unname( model.matrix(
-  object = dat$r ~ 1 + gravity + ph + osmo + cond + urea + calc ,
-  data = as.data.frame(Z)
-)
+X <- unname(
+  model.matrix(
+    object = dat$r ~ 1 + gravity + ph + osmo + cond + urea + calc ,
+    data = as.data.frame(Z)
+  )
 ) # "stats"
 attr( X , "assign" ) <- NULL
 head( X , n = 10 )
@@ -55,20 +58,18 @@ head( X , n = 10 )
 #-------------------------------------------------------------------------------
 # Specify data list for Stan simulation
 #-------------------------------------------------------------------------------
-y <- as.integer(dat$r)
-
 dataList <- list(
   N = nrow(X) ,
   M = ncol(X) ,
   X = X ,
-  y = y
+  y = as.integer(dat$r)
 )
 rm( dat , X , Z )
 
 #-------------------------------------------------------------------------------
 # Fitting a Stan model: Bernoulli likelihood w/ logit link and fixed priors
 #-------------------------------------------------------------------------------
-mod1.stan <- stan(
+modelStan <- stan(
   file = "logistRegBernFixed.stan" ,
   data = dataList ,
   chains = 4 ,
@@ -82,62 +83,64 @@ mod1.stan <- stan(
   cores = 3
 )
 
-class(mod1.stan)
-dim(mod1.stan)
+class(modelStan)
+dim(modelStan)
 
 #-------------------------------------------------------------------------------
 # Summary and MCMC diagnostics
 #-------------------------------------------------------------------------------
 print(
-  x = mod1.stan ,
+  x = modelStan ,
   pars = c("beta", "lp__") ,
   probs = c(0.015, 0.25, 0.50, 0.75, 0.985)
 )
 
-check_hmc_diagnostics(mod1.stan)
+check_hmc_diagnostics(modelStan)
 stan_trace(
-  object = mod1.stan ,
+  object = modelStan ,
   pars = c("beta", "lp__") ,
   inc_warmup = TRUE
 )  # "rstan"
 stan_plot(
-  object = mod1.stan ,
+  object = modelStan ,
   pars = c("beta") ,
   ci_level = 0.89 ,
   outer_level = 0.97
 )  # "rstan"
 stan_dens(
-  object = mod1.stan ,
+  object = modelStan ,
   pars = c("beta", "lp__")
 )  # "rstan"
 
 plot_title <- ggtitle( "Posterior marginal distributions" ,
                        "with medians and 89% intervals")
 mcmc_areas(
-  x = mod1.stan ,
+  x = modelStan ,
   regex_pars = c("beta") ,
   prob = 0.89
 ) + plot_title
+# bayesplot"
 
-np <- nuts_params(mod1.stan)
+np <- nuts_params(modelStan)
 mcmc_nuts_energy(np) + ggtitle("NUTS Energy Diagnostic")
+# bayesplot"
 
 pairs(
-  x = mod1.stan ,
+  x = modelStan ,
   pars = c("beta")
 )  # "rstan"
 
 mcmc_scatter(
-  x = as.matrix(mod1.stan) ,
+  x = as.matrix(modelStan) ,
   pars = c("beta[2]", "beta[4]")
 )  # bayesplot"
 mcmc_scatter(
-  x = as.matrix(mod1.stan) ,
+  x = as.matrix(modelStan) ,
   pars = c("beta[4]", "beta[5]")
 )  # bayesplot"
 
 mcmc_hex(
-  x = as.matrix(mod1.stan) ,
+  x = as.matrix(modelStan) ,
   pars = c("beta[2]", "beta[4]")
 )  # bayesplot"
 
@@ -145,7 +148,7 @@ mcmc_hex(
 # Posterior predictive checks
 #-------------------------------------------------------------------------------
 draws <- as.matrix(
-  x = mod1.stan ,
+  x = modelStan ,
   pars = "yrep"
 )
 class(draws)
@@ -167,13 +170,13 @@ ppc_stat(
   yrep = draws ,
   stat = "max" ,
   binwidth = 0.1
-)
+) # "bayesplot"
 ppc_stat(
   y = dataList$y ,
   yrep = draws ,
   stat = "mean" ,
   binwidth = 0.05
-)
+) # "bayesplot"
 ppc_intervals(
   y = dataList$y ,
   yrep = draws , 
@@ -181,7 +184,7 @@ ppc_intervals(
   prob_outer = 0.89 ,
   size = 1 ,
   fatten = 3
-)
+) # "bayesplot"
 
 ################################################################################
 ################################################################################

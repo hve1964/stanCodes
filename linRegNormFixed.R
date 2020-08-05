@@ -45,10 +45,11 @@ head(Z)
 #-------------------------------------------------------------------------------
 # Design matrix
 #-------------------------------------------------------------------------------
-X <- unname( model.matrix(
-  object = LPRICE2 ~ 1 + WRAIN + DEGREES + HRAIN + TIME_SV ,
-  data = as.data.frame(Z)
-)
+X <- unname(
+  model.matrix(
+    object = LPRICE2 ~ 1 + WRAIN + DEGREES + HRAIN + TIME_SV ,
+    data = as.data.frame(Z)
+  )
 ) # "stats"
 attr( X , "assign" ) <- NULL
 head( X , n = 10 )
@@ -56,20 +57,18 @@ head( X , n = 10 )
 #-------------------------------------------------------------------------------
 # Specify data list for Stan simulation
 #-------------------------------------------------------------------------------
-y <- as.numeric(Z[,"LPRICE2"])
-
 dataList <- list(
   N = nrow(X) ,
   M = ncol(X) ,
   X = X ,
-  y = y
+  y = as.numeric(Z[,"LPRICE2"])
 )
 rm( dat , X , Z )
 
 #-------------------------------------------------------------------------------
 # Fitting a Stan model: Gauss likelihood and fixed priors
 #-------------------------------------------------------------------------------
-fitGaussModelStd <- stan(
+modelStan <- stan(
   file = "linRegNormFixed.stan" ,
   data = dataList ,
   chains = 4 ,
@@ -83,70 +82,70 @@ fitGaussModelStd <- stan(
   cores = 3
 )
 
-class(fitGaussModelStd)
-dim(fitGaussModelStd)
+class(modelStan)
+dim(modelStan)
 
 #-------------------------------------------------------------------------------
 # Summary and MCMC diagnostics
 #-------------------------------------------------------------------------------
 print(
-  x = fitGaussModelStd ,
+  x = modelStan ,
   pars = c("beta", "sigma", "lp__") ,
   probs = c(0.015, 0.25, 0.50, 0.75, 0.985)
 )
 
-check_hmc_diagnostics(fitGaussModelStd)
+check_hmc_diagnostics(modelStan)
 stan_trace(
-  object = fitGaussModelStd ,
+  object = modelStan ,
   pars = c("beta", "sigma", "lp__") ,
   inc_warmup = TRUE
 )  # "rstan"
 stan_plot(
-  object = fitGaussModelStd ,
+  object = modelStan ,
   pars = c("beta", "sigma") ,
   ci_level = 0.89 ,
   outer_level = 0.97
 )  # "rstan"
 stan_dens(
-  object = fitGaussModelStd ,
+  object = modelStan ,
   pars = c("beta", "sigma", "lp__")
 )  # "rstan"
 
 plot_title <- ggtitle( "Posterior marginal distributions" ,
                        "with medians and 89% intervals")
 mcmc_areas(
-  x = fitGaussModelStd ,
+  x = modelStan ,
   regex_pars = c("beta", "sigma") ,
   prob = 0.89
 ) + plot_title
 
-np <- nuts_params(fitGaussModelStd)
+np <- nuts_params(modelStan)
 mcmc_nuts_energy(np) + ggtitle("NUTS Energy Diagnostic")
 
 pairs(
-  x = fitGaussModelStd ,
+  x = modelStan ,
   pars = c("beta", "sigma")
 )  # "rstan"
 
 mcmc_scatter(
-  x = as.matrix(fitGaussModelStd) ,
+  x = as.matrix(modelStan) ,
   pars = c("sigma", "beta[2]")
 )  # bayesplot"
 mcmc_scatter(
-  x = as.matrix(fitGaussModelStd) ,
+  x = as.matrix(modelStan) ,
   pars = c("beta[3]", "beta[4]")
 )  # bayesplot"
 
 mcmc_hex(
-  x = as.matrix(fitGaussModelStd) ,
+  x = as.matrix(modelStan) ,
   pars = c("beta[2]", "beta[4]")
 )  # bayesplot"
 
 #-------------------------------------------------------------------------------
-# Posterior predictive checks
+# Posterior predictive checks (re-using predictor data)
 #-------------------------------------------------------------------------------
 draws <- as.matrix(
-  x = fitGaussModelStd ,
+  x = modelStan ,
   pars = "yrep"
 )
 class(draws)
@@ -168,13 +167,13 @@ ppc_stat(
   yrep = draws ,
   stat = "max" ,
   binwidth = 0.1
-)
+)  # "bayesplot"
 ppc_stat(
   y = dataList$y ,
   yrep = draws ,
   stat = "mean" ,
   binwidth = 0.05
-)
+)  # "bayesplot"
 ppc_intervals(
   y = dataList$y ,
   yrep = draws , 
@@ -182,7 +181,7 @@ ppc_intervals(
   prob_outer = 0.89 ,
   size = 1 ,
   fatten = 3
-)
+)  # "bayesplot"
 
 ################################################################################
 ################################################################################

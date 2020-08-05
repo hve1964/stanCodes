@@ -41,10 +41,11 @@ head(Z)
 #-------------------------------------------------------------------------------
 # Design matrix
 #-------------------------------------------------------------------------------
-X <- unname( model.matrix(
-  object = poissonData$y ~ 1 + x1 + x2 + x3 ,
-  data = as.data.frame(Z)
-)
+X <- unname(
+  model.matrix(
+    object = poissonData$y ~ 1 + x1 + x2 + x3 ,
+    data = as.data.frame(Z)
+  )
 ) # "stats"
 attr( X , "assign" ) <- NULL
 head( X , n = 10 )

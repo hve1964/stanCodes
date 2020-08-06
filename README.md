@@ -32,7 +32,7 @@ Sample data sets:
 (vi) data set "iris" from R package datasets [Linear regression (varying effects)]
 
 (vii) bankloan.RData [Logistic regression (varying effects)]
-    y: previously defaulted {0, 1}
+    y: previously defaulted {0, 1};
     x1: standardised age [yr];
     x2: standardised years with current employer [yr];
     x3: standardised years at current address [yr];

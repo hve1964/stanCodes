@@ -1,5 +1,5 @@
 ################################################################################
-# Lecture notes: test of poisReg Stan code (adaptive priors: varying-intercept)
+# Lecture notes: test of poisReg Stan code (adaptive priors: varying effects)
 # Do, 06.08.2020
 # Data: plane touch down numbers
 ################################################################################

@@ -65,7 +65,6 @@ dataList <- list(
     ncol = 1L
   ) ,
   X = X ,
-  X = X ,
   y = tramWait$wait ,
   gp = tramWait$tram  
 )

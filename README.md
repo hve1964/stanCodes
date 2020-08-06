@@ -39,5 +39,5 @@ Sample data sets:
     x4: standardised household income [$ 10³];
     x5: standardised debt to income ratio [%];
     x6: standardised credit card debt [$ 10³];
-    x7: standardised other debt [$ 10³]
+    x7: standardised other debt [$ 10³];
     gp: level of education: "did not complete high school" (1), "high school degree" (2), "some college" (3), "college degree" (4), "doctorate" (5)

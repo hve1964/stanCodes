@@ -31,7 +31,7 @@ Sample data sets:
 
 (vi) data set "iris" from R package datasets [Linear regression (varying effects)]
 
-(vii) bankloan.RData (IBM SPSS tutorial binary logistic regression, https://www.ibm.com/support/knowledgecenter/en/SSLVMB_sub/statistics_spsstut_project_ddita/spss/tutorials/data_files.html) [Logistic regression (varying effects)]
+(vii) bankloan.RData (IBM SPSS tutorial binary logistic regression, https://www.ibm.com/support/knowledgecenter/en/SSLVMB_sub/statistics_casestudies_project_ddita/spss/tutorials/log_bankloan_intro.html) [Logistic regression (varying effects)]
     y: previously defaulted {0, 1};
     x1: standardised age [yr];
     x2: standardised years with current employer [yr];

@@ -71,7 +71,7 @@ dataList <- list(
 rm( poissonData , X , Z )
 
 #-------------------------------------------------------------------------------
-# Fitting a Stan model: Poisson likelihood w/ log link and and adaptive priors
+# Fitting a Stan model: Poisson likelihood w/ log link and adaptive priors
 #   (non-centered)
 #-------------------------------------------------------------------------------
 modelStan <- stan(

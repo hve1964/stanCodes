@@ -62,7 +62,7 @@ dataList <- list(
 rm( tramWait , X , Z )
 
 #-------------------------------------------------------------------------------
-# Fitting a Stan model: Poisson likelihood w/ log link and fixed priors
+# Fitting a Stan model: Exponential likelihood w/ log link and fixed priors
 #-------------------------------------------------------------------------------
 modelStan <- stan(
   file = "expRegFixed.stan" ,

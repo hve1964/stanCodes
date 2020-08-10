@@ -1,6 +1,6 @@
 ################################################################################
 # Lecture notes: test of logistReg Stan code (adaptive priors: varying effects)
-# Do, 06.08.2020
+# Mo, 10.08.2020
 # Data: bank loan
 ################################################################################
 
@@ -78,7 +78,7 @@ rm( dat , X , Z )
 
 #-------------------------------------------------------------------------------
 # Fitting a Stan model: Bernoulli likelihood w/ logit link and adaptive priors
-#   (non-centered)
+#   (non-centred)
 #-------------------------------------------------------------------------------
 modelStan <- stan(
   file = "logistRegBernVarying.stan" ,
@@ -102,38 +102,38 @@ dim(modelStan)
 #-------------------------------------------------------------------------------
 print(
   x = modelStan ,
-  pars = c("beta", "gamma_beta", "R", "lp__") ,
+  pars = c("beta", "R_beta", "lp__") ,
   probs = c(0.015, 0.25, 0.50, 0.75, 0.985)
 )
 
 check_hmc_diagnostics(modelStan)
 stan_trace(
   object = modelStan ,
-  pars = c("beta", "gamma_beta", "R", "lp__") ,
+  pars = c("beta", "R_beta", "lp__") ,
   inc_warmup = TRUE
 )  # "rstan"
 stan_plot(
   object = modelStan ,
-  pars = c("beta", "gamma_beta") ,
+  pars = c("beta") ,
   ci_level = 0.89 ,
   outer_level = 0.97
 )  # "rstan"
 stan_plot(
   object = modelStan ,
-  pars = c("R") ,
+  pars = c("R_beta") ,
   ci_level = 0.89 ,
   outer_level = 0.97
 )  # "rstan"
 stan_dens(
   object = modelStan ,
-  pars = c("beta", "gamma_beta", "R", "lp__")
+  pars = c("beta", "R_beta", "lp__")
 )  # "rstan"
 
 plot_title <- ggtitle( "Posterior marginal distributions" ,
                        "with medians and 89% intervals")
 mcmc_areas(
   x = modelStan ,
-  regex_pars = c("beta", "gamma_beta") ,
+  regex_pars = c("beta") ,
   prob = 0.89
 ) + plot_title
 # bayesplot"

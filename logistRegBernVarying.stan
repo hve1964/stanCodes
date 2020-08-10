@@ -15,7 +15,7 @@ data {
 
 parameters {
   /* Unobserved variables */
-  matrix[L, M] gamma;    // group coefficients
+  matrix[L, M] gamma_beta;    // group coefficients
   matrix[M, K] z_beta;
 
   /* Cholesky decomposition of covariance matrix */
@@ -27,12 +27,12 @@ transformed parameters {
   matrix[K, M] beta;
 
   /* Correlated varying intercepts and slopes */
-  beta = u * gamma + ( diag_pre_multiply( sigma_beta , L_R ) * z_beta )';
+  beta = u * gamma_beta + ( diag_pre_multiply( sigma_beta , L_R ) * z_beta )';
 }
 
 model {
   /* Fixed log-priors for unobserved variables (regularising) */
-  target += normal_lpdf( to_vector(gamma) | 0 , 1 );
+  target += normal_lpdf( to_vector(gamma_beta) | 0 , 1 );
   target += normal_lpdf( to_vector(z_beta) | 0 , 1 );
 
   /* Fixed log-priors for Cholesky decomposition of covariance matrix */

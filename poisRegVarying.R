@@ -226,15 +226,15 @@ ppc_rootogram(
 #-------------------------------------------------------------------------------
 # Pareto-smoothed importance-sampling leave-one-out cross-validation (PSIS-LOO)
 #-------------------------------------------------------------------------------
-loo(
-  x = modelStan ,
-  pars = "log_lik"
-)  # "loo"
 looModelStan <- loo(
   x = modelStan ,
   pars = "log_lik"
 )  # "loo"
-plot(looModelStan)
+print(x = looModelStan)
+plot(
+  x = looModelStan ,
+  label_points = TRUE
+)
 
 ################################################################################
 ################################################################################

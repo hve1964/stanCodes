@@ -35,7 +35,7 @@ pairs(dat) # Generate pairwise scatter plots
 head(dat)
 
 # Standardisation of data
-Z = scale(
+Z <- scale(
   x = dat[, 2:7] ,
   center = TRUE ,
   scale = TRUE

@@ -12,22 +12,22 @@ data {
 
 parameters {
   /* Unobserved variables */
-  real mu0;                    // mean of distribution of group means
-  real<lower=0> musigma0;      // stdev of distribution of group means
+  real mu_mu;                  // mean of distribution of group means
+  real<lower=0> sigma_mu;      // stdev of distribution of group means
   vector[K] mu;                // group means
-  real<lower=0> beta0;         // parameter of distribution of group stdevs
+  real<lower=0> beta_sigma;    // parameter of distribution of group stdevs
   vector<lower=0>[K] sigma;    // group stdevs (inhomogeneous)
 }
 
 model {
   /* Fixed log-priors (weakly informative, regularising) */
-  target += normal_lpdf( mu0 | 90 , 2 );
-  target += exponential_lpdf( musigma0 | 1 );
-  target += exponential_lpdf( beta0 | 1 );
+  target += normal_lpdf( mu_mu | 90 , 2 );
+  target += exponential_lpdf( sigma_mu | 1 );
+  target += exponential_lpdf( beta_sigma | 1 );
 
   /* Adaptive log-priors */
-  target += normal_lpdf( mu | mu0 , musigma0 );
-  target += exponential_lpdf( sigma | beta0 );
+  target += normal_lpdf( mu | mu_mu , sigma_mu );
+  target += exponential_lpdf( sigma | beta_sigma );
 
   /* Gauss log-likelihood */
   target += normal_lpdf( y | mu[gp] , sigma[gp] );

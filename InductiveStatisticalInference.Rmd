@@ -26,7 +26,6 @@ Bache and Wickham (2022), `GGally` by Schloerke *et al* (2021), ...
 
 ```{r libraries, echo = TRUE}
 library(bayesplot)
-#library(broom)
 library(GGally)
 library(loo)
 #library(lubridate)
@@ -2120,10 +2119,53 @@ Bollerslev (1986), Bürkner *et al* (2020), approximating exact LFO-CV.
 
 **data set** `massChangeData.RData`, **variables**
 
+```{r dataGARCH_1_1_NormFixed}
+load("massChangeData.RData")
+attach(what = massChangeData)
+any(is.na(x = massChangeData)) # Checking for missing values in the data matrix
+dat <-
+  stats::na.omit(object = massChangeData) %>% # Delete cases with missing 
+                                              #   values
+  tibble::as_tibble(x = .)
+rm(massChangeData)
+dim(x = dat)
+head(x = dat)
+```
+
+**variables**
+
+`T`: date of observation (`date`)
+
+`y`: mass change [kg] (`massChange`)
+
+
+**visualisation**
+
+```{r visGARCH_1_1_NormFixed}
+dat %>%
+  ggplot2::ggplot(data = ., mapping = aes(x = date, y = massChange)) +
+  ggplot2::geom_line() +
+  ggplot2::scale_x_datetime(name = "Date of observation",
+                            date_labels = "%b %Y") +
+  ggplot2::scale_y_continuous(name = "Mass change [kg]") +
+  ggplot2::theme_bw()
+```
+
+data list for Stan simulation
+
+```{r listGARCH_1_1_NormFixed}
+dataList <-
+  list(T = as.integer(x = nrow(x = dat)),   # no. of time steps
+       y = dat$massChange,                  # times series data
+       sigma1 = 2.0)                        # initial sd
+rm(dat)
+```
+
 ### Statistical model
 
 **model parameters** $\mu$, $\alpha_{0} > 0$ and
-$0 < \alpha_{1}, \beta_{1} < 1$.
+$0 < \alpha_{1}, \beta_{1} < 1$, with the constraint $\alpha_{1} + \beta_{1}
+< 1$ imposed in order to ensure stationarity.
 
 \[
 \text{Likelihood:} \quad \left.y_{n}\right|y_{n-1}, \mu, \alpha_{0},
@@ -2146,6 +2188,105 @@ $0 < \alpha_{1}, \beta_{1} < 1$.
 \alpha_{0} \sim \mathrm{Exp}(1) \ , \qquad
 \alpha_{1}, \beta_{1} \sim \mathrm{Be}(1,1)
 \]
+
+### Fitting a Stan model: Gauß likelihood with fixed priors
+
+```{r stanGARCH_1_1_NormFixed}
+stanGARCH_1_1_NormFixed <-
+  rstan::stan(
+    file = "GARCH_1_1_NormFixed.stan",
+    data = dataList,
+    chains = 4,
+    iter = 2000,
+    warmup = 1000,
+    thin = 1,
+    init = "random",
+    algorithm = "NUTS",
+    control = list(adapt_delta = 0.99,
+                   max_treedepth = 15),
+    cores = 3
+  )
+```
+
+See also the Stan User's Guide (Version 2.30), Sec. 2.2, URL (cited on
+August 22, 2022): 
+https://mc-stan.org/docs/stan-users-guide/modeling-temporal-heteroscedasticity.html.
+
+### HMC diagnostics
+
+```{r diagnGARCH_1_1_NormFixed}
+rstan::check_hmc_diagnostics(object = stanGARCH_1_1_NormFixed)
+rstan::stan_trace(
+  object = stanGARCH_1_1_NormFixed,
+  pars = c("mu", "alpha0", "alpha1", "beta1", "lp__"),
+  inc_warmup = TRUE
+)
+```
+
+### Summary of posterior marginal probability distributions for model parameters
+
+```{r summaryGARCH_1_1_NormFixed}
+print(
+  x = stanGARCH_1_1_NormFixed,
+  pars = c("mu", "alpha0", "alpha1", "beta1", "lp__"),
+  probs = c(0.015, 0.25, 0.50, 0.75, 0.985)
+)
+rstan::stan_plot(
+  object = stanGARCH_1_1_NormFixed,
+  pars = c("mu", "alpha0", "alpha1", "beta1"),
+  ci_level = 0.89,
+  outer_level = 0.97
+)
+rstan::stan_dens(object = stanGARCH_1_1_NormFixed,
+                 pars = c("mu", "alpha0", "alpha1", "beta1", "lp__"))
+```
+
+### Posterior predictive checks
+
+```{r ppcGARCH_1_1_NormFixed}
+draws <-
+  as.matrix(x = stanGARCH_1_1_NormFixed,
+            pars = "yrep")
+
+bayesplot::ppc_dens_overlay(y = dataList$y,
+                            yrep = draws[501:600,]) +
+  ggplot2::labs(
+    title = paste0(
+      "Posterior predictive distribution ",
+      "(re-using predictor data)"
+    ),
+    subtitle = "Empirical density overlaid with 100 HMC samples"
+  ) +
+  ggplot2::xlab(label = "Mass change [kg]") +
+  ggplot2::ylab(label = "Density [1/kg]") +
+  ggplot2::theme_bw()
+
+bayesplot::ppc_intervals(
+  y = dataList$y,
+  yrep = draws,
+  prob = 0.89,
+  prob_outer = 0.97,
+  size = 1,
+  fatten = 3
+) +
+  ggplot2::labs(
+    title = paste0(
+      "Posterior predictive compatibility intervals ",
+      "(re-using predictor data)"
+    ),
+    subtitle = "Data points overlaid with interval estimates"
+  ) +
+  ggplot2::xlab(label = "Sample number") +
+  ggplot2::ylab(label = "Mass change [kg]") +
+  ggplot2::theme_bw()
+```
+
+### Remarks
+
+clear data
+```{r clearGARCH_1_1_NormFixed}
+rm(dataList, draws, stanGARCH_1_1_NormFixed)
+```
 
 # References
 

@@ -28,14 +28,10 @@ Bache and Wickham (2022), `GGally` by Schloerke *et al* (2021), ...
 library(bayesplot)
 library(GGally)
 library(loo)
-#library(lubridate)
 library(magrittr)
 library(rstan)
 library(scales)
 library(tidyverse)
-#library(urca)
-#library(xts)
-#library(zoo)
 options(mc.cores = parallel::detectCores())
 rstan::rstan_options("required" = FALSE)
 rstan::rstan_options(auto_write = TRUE)
@@ -648,6 +644,29 @@ dat <-
 rm(poissonData)
 dim(x = dat)
 head(x = dat)
+```
+
+**visualisation**
+
+```{r visPoisRegFixed}
+dat %>%
+  ggplot2::ggplot(data = ., mapping = aes(x = y)) +
+  ggplot2::geom_bar(mapping = aes(y = ..prop..),
+                    stat = "count",
+                    width = 0.1) +
+  ggplot2::scale_x_continuous(
+    name = "Count per 15 min observation interval [1]",
+    breaks = seq(from = 0, to = 8, by = 1),
+    labels = scales::number_format(
+      accuracy = 1,
+      big.mark = ".",
+      decimal.mark = ","
+    )
+  ) +
+  ggplot2::scale_y_continuous(
+    name = "Relative frequency [1]",
+    labels = scales::percent) +
+  ggplot2::theme_bw()
 ```
 
 **standardisation** of data; **variables**

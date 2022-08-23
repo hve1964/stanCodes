@@ -59,7 +59,7 @@ dim(x = dat)
 head(x = dat)
 ```
 
-**standardisation** of data; **variables**
+**standardisation** of **variables**
 
 `y`: standardised logarithm of average vintage wine price relative to 1961
 vintage [1] (`LPRICE2`)
@@ -459,21 +459,42 @@ dim(x = dat)
 head(x = dat)
 ```
 
-**standardisation** of data; **variables**
+**visualisation** (suppressing five independent variables other than `urea`)
 
-`y`: indicator of the presence of calcium oxalate crystals {0, 1}
+```{r visLogistRegBernFixed}
+dat %>%
+  ggplot2::ggplot(data = ., mapping = aes(x = urea, y = r)) +
+  ggplot2::geom_point() +
+  ggplot2::scale_x_continuous(name = paste0("Urea concentration ",
+                                            "[millimoles per litre]")) +
+  ggplot2::scale_y_continuous(
+    name = "Presence of calcium oxalate crystals [1]",
+    breaks = seq(from = 0, to = 1, by = 1),
+    labels = scales::number_format(
+      accuracy = 1,
+      big.mark = ".",
+      decimal.mark = ","
+    )
+  ) +
+  ggplot2::theme_bw()
+```
 
-`x1`: standardised specific gravity of the urine [...]
+**standardisation** of **variables**
 
-`x2`: standardised pH reading of the urine [...]
+`y`: indicator of the presence of calcium oxalate crystals: {0, 1} (`r``)
 
-`x3`: standardised osmolarity of the urine [...]
+`x1`: standardised specific gravity of the urine [1] (`gravity`)
 
-`x4`: standardised conductivity of the urine [...]
+`x2`: standardised pH reading of the urine [1] (`ph`)
 
-`x5`: standardised urea concentration [millimoles per litre]
+`x3`: standardised osmolarity of the urine [milliosmoles per litre] (`osmo`)
 
-`x6`: standardised calcium concentration [millimoles per litre]
+`x4`: standardised conductivity of the urine [micro-Siemens per centimetre] 
+(`cond`)
+
+`x5`: standardised urea concentration [millimoles per litre] (`urea`)
+
+`x6`: standardised calcium concentration [millimoles per litre] (`calc`)
 
 ```{r standLogistRegBernFixed}
 Z <-
@@ -669,7 +690,7 @@ dat %>%
   ggplot2::theme_bw()
 ```
 
-**standardisation** of data; **variables**
+**standardisation** of **variables**
 
 `y`: count of planes touching down inside of a 15 min observation interval [1]
 
@@ -866,7 +887,7 @@ dim(x = dat)
 head(x = dat)
 ```
 
-**standardisation** of data; **variables**
+**standardisation** of **variables**
 
 `y`: waiting time for tram to arrive at stop [min] (`wait`)
 
@@ -1061,7 +1082,7 @@ dat %>%
   ggplot2::theme_bw()
 ```
 
-**standardisation** of data; **variables**
+**standardisation** of **variables**
 
 `y`: standardised petal width [cm] (`Petal.Width`)
 
@@ -1474,7 +1495,7 @@ dim(x = dat)
 head(x = dat)
 ```
 
-**standardisation** of data; **variables**
+**standardisation** of **variables**
 
 `y`: indicator of previous defaults: {0, 1} (`default`)
 

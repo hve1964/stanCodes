@@ -22,12 +22,14 @@ knitr::opts_chunk$set(echo = TRUE)
 R packages `rstan` by the Stan Development Team (2022b), `bayesplot` by
 Gabry and Mahr (2022), `loo` by Vehtari *et al* (2022),
 `tidyverse` by Wickham *et al* (2019), `magrittr` by
-Bache and Wickham (2022), `GGally` by Schloerke *et al* (2021), ...
+Bache and Wickham (2022), `GGally` by Schloerke *et al* (2021),
+`lubridate` by Grolemund and Wickham (2011) ...
 
 ```{r libraries, echo = TRUE}
 library(bayesplot)
 library(GGally)
 library(loo)
+library(lubridate)
 library(magrittr)
 library(rstan)
 library(scales)
@@ -51,6 +53,7 @@ removal of NAs
 ```{r dataLinRegNormFixed}
 load("ashenfelter.RData")
 attach(what = ashenfelter)
+any(is.na(x = ashenfelter)) # Checking for missing values in the data matrix
 dat <-
   stats::na.omit(object = ashenfelter) %>% # Delete cases with missing values
   tibble::as_tibble(x = .)
@@ -333,7 +336,7 @@ rm(dat)
 \[
 \text{Fixed priors:} \qquad
 \left.\boldsymbol{\mu}[gp] \right| \sigma^{2}, I
-\sim \mathrm{N}(90, 2^{2}) \ ,
+\sim \mathrm{N}(90~\mathrm{kg}, (2~\mathrm{kg})^{2}) \ ,
 \qquad \left.\sigma\right| I
 \sim \mathrm{Exp}(1)
 \]
@@ -1353,7 +1356,7 @@ rm(dat)
 \[
 \text{Weakly regularising fixed priors:} \qquad
 \mu_{\mu}
-\sim \mathrm{N}(90, 2^{2}) \ ,
+\sim \mathrm{N}(90~\mathrm{kg}, (2~\mathrm{kg})^{2}) \ ,
 \qquad
 \sigma_{\mu}
 \sim \mathrm{Exp}(1) \ ,
@@ -2151,6 +2154,193 @@ rm(dataList, draws, stanExpRegVarying, looExpRegVarying)
 
 # Time series analysis
 
+## Stationary linear $\text{AR}(p)$-model with Gauß likelihood
+
+blog entry by Daniel Foley, dated Nov 10, 2018, on
+"A Bayesian approach to time series forecasting", URL (cited on August 27,
+2022): https://towardsdatascience.com/a-bayesian-approach-to-time-series-forecasting-d97dd4168cb7
+
+### Data, visualisation and research question
+
+**data set** `USGDPpcData.RData`, US GDP growth data from the Federal Reserve
+of St. Louis website at the URL (cited on August 27, 2022): 
+https://fred.stlouisfed.org/series/GDPC1#0;
+
+```{r dataAR_p_NormFixed}
+load("USGDPpc.RData")
+attach(what = USGDPpc)
+any(is.na(x = USGDPpc)) # Checking for missing values in the data matrix
+dat <-
+  stats::na.omit(object = USGDPpc) %>% # Delete cases with missing values
+  tibble::as_tibble(x = .) %>%
+  dplyr::filter(.data = ., date >= lubridate::ymd("1994-01-01"))
+dat$date <-
+  lubridate::as_datetime(x = dat$date)
+rm(USGDPpc)
+dim(x = dat)
+head(x = dat)
+```
+
+**variables**
+
+`T`: date of observation (`date`)
+
+`y`: quarterly percentage change of US GDP [1] (`percentage_change`)
+
+Prsent consideration restricted to the observations from the period
+`1994-01-01` to `2018-10-01`.
+
+**visualisation**
+
+```{r visAP_p_NormFixed}
+dat %>%
+  ggplot2::ggplot(data = ., mapping = aes(x = date, y = percentage_change)) +
+  ggplot2::geom_line() +
+  ggplot2::scale_x_datetime(name = "Date of observation",
+                            date_labels = "%b %Y") +
+  ggplot2::scale_y_continuous(name = "Quarterly percentage change [%]") +
+  ggplot2::theme_bw()
+```
+
+data list for Stan simulation
+
+```{r listAR_p_NormFixed}
+dataList <-
+  list(T = as.integer(x = nrow(x = dat)),   # no. of time steps
+       y = dat$percentage_change,           # times series data
+       P = 2L)                              # order p of AR(p) model
+rm(dat)
+```
+
+### Statistical model
+
+**model parameters** $\alpha$, $\beta_{i}$ and $\sigma^{2}$, with the constraint 
+$-1 < \beta_{i} < 1$ imposed in order to ensure a necessary (though not 
+sufficient) condition for stationarity to hold for the time series model to be
+constructed.
+
+\[
+\text{Likelihood:} \quad \left.y_{n}\right|y_{n-i}, \alpha,
+\beta_{i}, \sigma^{2}, I
+\stackrel{\mathrm{ind}}{\sim} \mathrm{N}\left(\mu_{n}, \sigma^{2}\right) \ ,
+\qquad
+\sigma_{n}^{2}
+:= \mathrm{Var}\left(\left.y_{n}\right|y_{n-i}, \alpha, \beta_{i}, I\right)
+= \text{constant}
+\]
+\[
+\text{Linear model:} \quad \mu_{n}
+:= \mathrm{E}\left(\left.y_{n}\right|y_{n-i}, \alpha,
+\beta_{i}, \sigma^{2}, I\right)
+= \alpha + \sum_{i=1}^{p}\beta_{i}y_{n-i}
+\]
+\[
+\text{Regularising fixed priors:} \quad
+\alpha, \beta_{i} \sim \mathrm{N}\left(0, 1\right) \ , \qquad
+\sigma \sim \mathrm{Exp}(1)
+\]
+
+### Fitting a Stan model: Gauß likelihood with fixed priors
+
+```{r stanAR_p_NormFixed}
+stanAR_p_NormFixed <-
+  rstan::stan(
+    file = "AR_p_NormFixed.stan",
+    data = dataList,
+    chains = 4,
+    iter = 2000,
+    warmup = 1000,
+    thin = 1,
+    init = "random",
+    algorithm = "NUTS",
+    control = list(adapt_delta = 0.99,
+                   max_treedepth = 15),
+    cores = 3
+  )
+```
+
+See also the Stan User's Guide (Version 2.30), Sec. 2.1, URL (cited on
+August 27, 2022):
+https://mc-stan.org/docs/stan-users-guide/autoregressive.html, and
+Ali (2017), URL (cited on August 27, 2022):
+https://imadali.net/projects/bsss/rstan/generated-quantities/.
+
+### HMC diagnostics
+
+```{r diagnAP_p_NormFixed}
+rstan::check_hmc_diagnostics(object = stanAR_p_NormFixed)
+rstan::stan_trace(
+  object = stanAR_p_NormFixed,
+  pars = c("alpha", "beta", "sigma", "lp__"),
+  inc_warmup = TRUE
+)
+```
+
+### Summary of posterior marginal probability distributions for model parameters
+
+```{r summaryAP_p_NormFixed}
+print(
+  x = stanAR_p_NormFixed,
+  pars = c("alpha", "beta", "sigma", "lp__"),
+  probs = c(0.015, 0.25, 0.50, 0.75, 0.985)
+)
+rstan::stan_plot(
+  object = stanAR_p_NormFixed,
+  pars = c("alpha", "beta", "sigma"),
+  ci_level = 0.89,
+  outer_level = 0.97
+)
+rstan::stan_dens(object = stanAR_p_NormFixed,
+                 pars = c("alpha", "beta", "sigma", "lp__"))
+```
+
+### Posterior predictive checks
+
+```{r ppcAR_p_NormFixed}
+draws <-
+  as.matrix(x = stanAR_p_NormFixed,
+            pars = "yrep")
+
+bayesplot::ppc_dens_overlay(y = dataList$y[-c(1:2)],
+                            yrep = draws[501:600,]) +
+  ggplot2::labs(
+    title = paste0(
+      "Posterior predictive distribution ",
+      "(re-using predictor data)"
+    ),
+    subtitle = "Empirical density overlaid with 100 HMC samples"
+  ) +
+  ggplot2::xlab(label = "Quarterly percentage change [%]") +
+  ggplot2::ylab(label = "Density [1/%]") +
+  ggplot2::theme_bw()
+
+bayesplot::ppc_intervals(
+  y = dataList$y[-c(1:2)],
+  yrep = draws,
+  prob = 0.89,
+  prob_outer = 0.97,
+  size = 1,
+  fatten = 3
+) +
+  ggplot2::labs(
+    title = paste0(
+      "Posterior predictive compatibility intervals ",
+      "(re-using predictor data)"
+    ),
+    subtitle = "Data points overlaid with interval estimates"
+  ) +
+  ggplot2::xlab(label = "Sample number") +
+  ggplot2::ylab(label = "Quarterly percentage change [%]") +
+  ggplot2::theme_bw()
+```
+
+### Remarks
+
+clear data
+```{r clearAR_p_NormFixed}
+rm(dataList, draws, stanAR_p_NormFixed)
+```
+
 ## Stationary linear $\text{GARCH}(1,1)$-model with Gauß likelihood
 
 Bollerslev (1986), Bürkner *et al* (2020), approximating exact LFO-CV.
@@ -2178,6 +2368,8 @@ head(x = dat)
 
 `y`: mass change [kg] (`massChange`)
 
+observations from the period `2015-01-01` to
+`2016-12-31`.
 
 **visualisation**
 
@@ -2224,7 +2416,7 @@ $0 < \alpha_{1}, \beta_{1} < 1$, with the constraint $\alpha_{1} + \beta_{1}
 \]
 \[
 \text{Fixed priors:} \quad
-\mu \sim \mathrm{N}\left(0, (1,5~\mathrm{kg})^{2}\right) \ , \qquad
+\mu \sim \mathrm{N}\left(0~\mathrm{kg}, (1,5~\mathrm{kg})^{2}\right) \ , \qquad
 \alpha_{0} \sim \mathrm{Exp}(1) \ , \qquad
 \alpha_{1}, \beta_{1} \sim \mathrm{Be}(1,1)
 \]
@@ -2340,7 +2532,7 @@ rm(dataList, draws, stanGARCH_1_1_NormFixed)
 
 5. B Carpenter, A Gelman, M D Hoffman, D Lee, B Goodrich, M Betancourt, M Brubaker, J Guo, P Li and A Riddell (2017) Stan: A probabilistic programming language *Journal of Statistical Software* **76** 1–32 DOI: https://doi.org/10.18637/jss.v076.i01
 
-6. H van Elst (2022) An introduction to inductive statistical inference: from parameter estimation to decision-making *eprint* arXiv:1808.10173v3 [stat.AP] URL: https://arxiv.org/abs/1808.10173
+6. H van Elst (2022) An introduction to inductive statistical inference: from parameter estimation to decision-making *eprint* arXiv:1808.10173v3 [stat.AP] URL: https://arxiv.org/abs/1808.10173 [See also URL: https://www.researchgate.net/publication/327336588_An_Introduction_to_Inductive_Statistical_Inference_from_Parameter_Estimation_to_Decision-Making_version_3]
 
 7. J Gabry, Daniel Simpson, A Vehtari, M Betancourt and A Gelman (2019) Visualization in Bayesian workflow *Journal of the Royal Statistical Society: Series A (Statistics in Society)* **182** 389-402 DOI: https://doi.org/10.1111/rssa.12378 [arXiv: https://arxiv.org/abs/1709.01449]
 
@@ -2348,21 +2540,23 @@ rm(dataList, draws, stanGARCH_1_1_NormFixed)
 
 9. A Gelman, J B Carlin, H S Stern, D B Dunson, A Vehtari and D B Rubin (2014) *Bayesian Data Analysis* 3rd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9781439840955
 
-10. D Kahneman (2011) Thinking, Fast and Slow (London: Penguin) ISBN–13: 9780141033570
+10. G Grolemund and Hadley Wickham (2011) Dates and times made easy with lubridate *Journal of Statistical Software* **40**(3) 1-25 URL: https://www.jstatsoft.org/v40/i03/
 
-11. R McElreath (2020) *Statistical Rethinking — A Bayesian Course with Examples in R and Stan* 2nd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9780367139919
+11. D Kahneman (2011) Thinking, Fast and Slow (London: Penguin) ISBN–13: 9780141033570
 
-12. R Core Team (2022) R: A language and environment for statistical computing (Wien: R Foundation for Statistical Computing) URL (cited on August 18, 2022): https://www.R-project.org
+12. R McElreath (2020) *Statistical Rethinking — A Bayesian Course with Examples in R and Stan* 2nd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9780367139919
 
-13. B Schloerke, D Cook, J Larmarange, F Briatte, M Marbach, E Thoen, A Elberg and J Crowley (2021) GGally: Extension to 'ggplot2' (R package version 2.1.2) URL (cited on August 21,  2022): https://CRAN.R-project.org/package=GGally
+13. R Core Team (2022) R: A language and environment for statistical computing (Wien: R Foundation for Statistical Computing) URL (cited on August 18, 2022): https://www.R-project.org
 
-14. Stan Development Team (2022a) *Stan* URL (cited on August 18, 2022): https://mc-stan.org
+14. B Schloerke, D Cook, J Larmarange, F Briatte, M Marbach, E Thoen, A Elberg and J Crowley (2021) GGally: Extension to 'ggplot2' (R package version 2.1.2) URL (cited on August 21,  2022): https://CRAN.R-project.org/package=GGally
 
-15. Stan Development Team (2022b) rstan: R interface to Stan (R package version 2.21.5) URL (cited on August 17, 2022): https://CRAN.R-project.org/package=rstan
+15. Stan Development Team (2022a) *Stan* URL (cited on August 18, 2022): https://mc-stan.org
 
-16. A Vehtari, J Gabry, M Magnusson, Y Yao, P Bürkner, T Paananen and A Gelman (2022) loo: Efficient leave-one-out cross-validation and WAIC for Bayesian models (R package version 2.5.1) URL (cited on August 20, 2022): https://mc-stan.org/loo/
+16. Stan Development Team (2022b) rstan: R interface to Stan (R package version 2.21.5) URL (cited on August 17, 2022): https://CRAN.R-project.org/package=rstan
 
-17. H Wickham, M Averick, J Bryan, W Chang, L D McGowan, R François, G Grolemund, A Hayes, L Henry, J Hester, M Kuhn, T L Pedersen, E Miller, S M Bache, K Müller, J Ooms, D Robinson, D P Seidel, V Spinu, K Takahashi, D Vaughan, C Wilke, K Woo and H Yutani (2019) Welcome to the tidyverse *Journal of Open Source Software* **4** (43) 1686 DOI: https://doi.org/10.21105/joss.01686.
+17. A Vehtari, J Gabry, M Magnusson, Y Yao, P Bürkner, T Paananen and A Gelman (2022) loo: Efficient leave-one-out cross-validation and WAIC for Bayesian models (R package version 2.5.1) URL (cited on August 20, 2022): https://mc-stan.org/loo/
+
+18. H Wickham, M Averick, J Bryan, W Chang, L D McGowan, R François, G Grolemund, A Hayes, L Henry, J Hester, M Kuhn, T L Pedersen, E Miller, S M Bache, K Müller, J Ooms, D Robinson, D P Seidel, V Spinu, K Takahashi, D Vaughan, C Wilke, K Woo and H Yutani (2019) Welcome to the tidyverse *Journal of Open Source Software* **4** (43) 1686 DOI: https://doi.org/10.21105/joss.01686.
   
 # Information on current R session
   

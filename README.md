@@ -40,7 +40,7 @@ Ali (2017), URL (cited on August 27, 2022): https://imadali.net/projects/bsss/rs
 (xii) *GARCH_1_1_NormFixed.stan* [Stationary linear GARCH(1,1)-model(fixed effects)]: See also the Stan User's Guide (Version 2.30), Sec. 2.2, URL (cited on
 August 22, 2022): https://mc-stan.org/docs/stan-users-guide/modeling-temporal-heteroscedasticity.html.
 
-**D: Sample data sets:**
+**D: Sample data sets**
 
 (i) ashenfelter.RData (Ashenfelter, Ashmore and Lalonde, http://www.liquidasset.com/) [Linear regression (fixed effects)]:
     y: standardised logarithm of average vintage wine price relative to 1961 vintage [1];

@@ -1,7 +1,7 @@
 # stanCodes
 **Stan codes** and corresponding **R scripts** accompanying the online lecture notes on Inductive Statistical Inference (version 3) at https://arxiv.org/abs/1808.10173.
 
-**A Fixed effects generalised linear models**
+**A: Fixed effects generalised linear models**
 
 (i) *linRegNormFixed.stan* [Linear regression]: See also the Stan User's Guide (Version 2.30), Sec. 1.1, URL (cited on
 August 19, 2022): https://mc-stan.org/docs/stan-users-guide/linear-regression.html.
@@ -15,7 +15,7 @@ August 19, 2022): https://mc-stan.org/docs/stan-users-guide/logistic-probit-regr
 
 (v) *expRegFixed.stan* [Exponential regression]:
 
-**B Varying effects generalised linear models**
+**B: Varying effects generalised linear models**
 
 (vi) *linRegNormVarying.stan* [Multi-level linear regression]:
  See also the Stan User's Guide (Version 2.30), Sec. 1.13, URL (cited on August 20,
@@ -31,7 +31,7 @@ https://mc-stan.org/docs/stan-users-guide/multivariate-hierarchical-priors.html.
 
 (x): *expRegVarying.stan* [Multi-level exponential regression]
 
-**Time series analysis**
+**C: Time series analysis**
 
 (xi) *AR_p_NormFixed.stan* [Stationary linear AR(p)-model (fixed effects)]: See also the Stan User's Guide (Version 2.30), Sec. 2.1, URL (cited on
 August 27, 2022): https://mc-stan.org/docs/stan-users-guide/autoregressive.html, and
@@ -40,7 +40,7 @@ Ali (2017), URL (cited on August 27, 2022): https://imadali.net/projects/bsss/rs
 (xii) *GARCH_1_1_NormFixed.stan* [Stationary linear GARCH(1,1)-model(fixed effects)]: See also the Stan User's Guide (Version 2.30), Sec. 2.2, URL (cited on
 August 22, 2022): https://mc-stan.org/docs/stan-users-guide/modeling-temporal-heteroscedasticity.html.
 
-**D Sample data sets:**
+**D: Sample data sets:**
 
 (i) ashenfelter.RData (Ashenfelter, Ashmore and Lalonde, http://www.liquidasset.com/) [Linear regression (fixed effects)]:
     y: standardised logarithm of average vintage wine price relative to 1961 vintage [1];

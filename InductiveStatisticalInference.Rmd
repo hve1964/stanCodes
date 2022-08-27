@@ -15,13 +15,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
+This R Markdown `html_notebook` provides worked examples in statistical
+modelling accompanying the online lecture notes "An Introduction to Inductive 
+Statistical Inference" (URL: https://arxiv.org/abs/1808.10173). These worked
+examples are grouped into sections on each of "Fixed effects generalised linear 
+models", "Varying effects generalised linear models" and "Time series
+analysis". The worked examples are coded in the statistical programming
+languages R and Stan; cf. R Core Team (2022) and Carpenter *et al* (2017).
+
 ... Gabry *et al* (2019), visualisation in Bayesian workflow
 
 # Load packages
 
-R packages `rstan` by the Stan Development Team (2022b), `bayesplot` by
-Gabry and Mahr (2022), `loo` by Vehtari *et al* (2022),
-`tidyverse` by Wickham *et al* (2019), `magrittr` by
+For the worked examples in statistical modelling to be discussed in subsequent
+sections the following R packages will be loaded: `rstan` by the Stan
+Development Team (2022b), `bayesplot` by Gabry and Mahr (2022), `loo` by
+Vehtari *et al* (2022), `tidyverse` by Wickham *et al* (2019), `magrittr` by
 Bache and Wickham (2022), `GGally` by Schloerke *et al* (2021),
 `lubridate` by Grolemund and Wickham (2011) and `scales` by Wickham H and D 
 Seidel (2022).
@@ -485,7 +494,7 @@ dat %>%
 
 **standardisation** of **variables**
 
-`y`: indicator of the presence of calcium oxalate crystals: {0, 1} (`r``)
+`y`: indicator of the presence of calcium oxalate crystals: {0, 1} (`r`)
 
 `x1`: standardised specific gravity of the urine [1] (`gravity`)
 
@@ -1736,6 +1745,32 @@ rm(poissonData)
 dim(x = dat)
 head(x = dat)
 ```
+
+**visualisation**
+
+```{r visPoisRegVarying}
+dat %>%
+  ggplot2::ggplot(data = ., mapping = aes(x = y)) +
+  ggplot2::geom_bar(mapping = aes(y = ..prop..),
+                    stat = "count",
+                    width = 0.1) +
+  ggplot2::scale_x_continuous(
+    name = "Count per 15 min observation interval [1]",
+    breaks = seq(from = 0, to = 8, by = 1),
+    labels = scales::number_format(
+      accuracy = 1,
+      big.mark = ".",
+      decimal.mark = ","
+    )
+  ) +
+  ggplot2::scale_y_continuous(
+    name = "Relative frequency [1]",
+    labels = scales::percent) +
+  ggplot2::facet_wrap(facets = ~ gp) +
+  ggplot2::theme_bw()
+```
+
+**standardisation**
 
 ```{r standPoisRegVarying}
 Z <-

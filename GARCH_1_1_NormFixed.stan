@@ -1,8 +1,8 @@
 /* Vectorised Stan model code for fixed effects GARCH(1,1) regression */
 data {
-  int<lower=0> T;
-  real<lower=0> sigma1;
-  vector[T] y;
+  int<lower=0> T;            // length of time series
+  real<lower=0> sigma1;      // initial value for linear variance model
+  vector[T] y;               // time series data
 }
 
 parameters {
@@ -23,7 +23,7 @@ transformed parameters {
 }
 
 model {
-  /* Fixed log-priors */
+  /* Fixed log-priors (regularising) */
   target += normal_lpdf( mu | 0 , 1.5 );     // prior for mean of likelihood
   target += exponential_lpdf( alpha0 | 1 );  // prior for positive intercept
   target += beta_lpdf( alpha1 | 1 , 1 );     // prior for positive slope1

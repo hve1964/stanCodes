@@ -41,3 +41,9 @@ Sample data sets:
     x6: standardised credit card debt [$ 10³];
     x7: standardised other debt [$ 10³];
     gp: level of education: "did not complete high school" (1), "high school degree" (2), "some college" (3), "college degree" (4), "doctorate" (5)
+
+(viii) USGDPpc.RData (raw USGDP data from the Federal Reserve of St. Louis website, URL: https://fred.stlouisfed.org/series/GDPC1#0) [AR(p) model (fixed effects)]
+    y: quarterly percentage of USGDP [%]
+
+(ix) massChangeData.RData [GARCH(1,1) model (fixed effects)]
+    y: mass change between two successive measurements [kg]

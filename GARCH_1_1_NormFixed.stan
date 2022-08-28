@@ -37,7 +37,7 @@ generated quantities {
   vector[T] yrep;
   vector[T] log_lik;
 
-  /* Posterior predictive distribution (re-using predictor data)
+  /* Posterior predictive distribution
   and calculation of pointwise log-likelihood */
   for ( i in 1:T ) {
     yrep[i] = normal_rng( mu , sigma[i] );

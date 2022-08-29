@@ -22,8 +22,8 @@ examples are grouped into sections on each of "Fixed effects generalised linear
 models", "Varying effects generalised linear models" and "Time series
 analysis". The worked examples are coded in the statistical programming
 languages R and Stan; cf. R Core Team (2022) and Carpenter *et al* (2017).
-
-... Gabry *et al* (2019), visualisation in Bayesian workflow
+Valuable suggestions on how to make effective use of visualisation in Bayesian 
+workflow have been put forward by Gabry *et al* (2019).
 
 # Load packages
 
@@ -32,7 +32,7 @@ sections the following R packages will be loaded: `rstan` by the Stan
 Development Team (2022b), `bayesplot` by Gabry and Mahr (2022), `loo` by
 Vehtari *et al* (2022), `tidyverse` by Wickham *et al* (2019), `magrittr` by
 Bache and Wickham (2022), `GGally` by Schloerke *et al* (2021),
-`lubridate` by Grolemund and Wickham (2011) and `scales` by Wickham H and D 
+`lubridate` by Grolemund and Wickham (2011) and `scales` by Wickham and
 Seidel (2022).
 
 ```{r libraries, echo = TRUE}
@@ -54,11 +54,11 @@ rstan::stan_version()
 
 ## Linear regression
 
-### Data, visualisation and research question
+### Data and visualisation
 
 **data set** `ashenfelter.RData` by Ashenfelter, Ashmore and Lalonde, URL (cited
-on August 17, 2022): http://www.liquidasset.com/); cf. Kahneman (2011),
-removal of NAs
+on August 17, 2022): http://www.liquidasset.com/); cf. Kahneman (2011). Check
+for an remove NAs.
 
 ```{r dataLinRegNormFixed}
 load("ashenfelter.RData")
@@ -245,12 +245,6 @@ bayesplot::ppc_intervals(
 
 ### Analysis of residuals
 
-Berechnen aus den HMC-simulierten Daten der Bayes-Laplace'schen **Residuen**
-für die **statistische Variable** `y` zu den gemessenen Werten für
-`x1`, `x2`, x3` and `x4`. Hierfür wird der Stichprobenmittelwert
-der HMC-simulierten Verteilungen für die prognostizierten Werte `yrep`
-verwendet.
-
 ```{r residLinRegNormFixed}
 tibble::tibble(
   predicted = draws %>%
@@ -287,7 +281,7 @@ rm(dataList, draws, stanLinRegNormFixed)
 
 ## ANOVA-like regression
 
-### Data, visualisation and research question
+### Data and visualisation
 
 **data set** `massMonitoring.csv`
 
@@ -455,9 +449,10 @@ rm(dataList, draws, stanAnovaRegNormFixed)
 
 ## Logistic regression
 
-### Data, visualisation and research question
+### Data and visualisation
 
-**data set** `urine` from R package `boot` by Canty and Ripley (2021).
+**data set** `urine` from R package `boot` by Canty and Ripley (2021);
+type `?urine`.
 
 ```{r dataLogistRegBernFixed}
 library(boot)
@@ -664,7 +659,7 @@ rm(dataList, draws, stanLogistRegBernFixed)
 
 ## Poisson regression
 
-### Data, visualisation and research question
+### Data and visualisation
 
 **data set** `poissonData.RData`
 
@@ -884,7 +879,7 @@ rm(dataList, draws, stanPoisRegFixed)
 
 ## Exponential regression
 
-### Data, visualisation and research question
+### Data and visualisation
 
 **data set** `tramWait.RData`
 
@@ -1064,9 +1059,10 @@ rm(dataList, draws, stanExpRegFixed)
 
 ## Multi-level linear regression
 
-### Data, visualisation and research question
+### Data and visualisation
 
-**data set** `iris` from R package `datasets` by the R Core Team (2022).
+**data set** `iris` from R package `datasets` by the R Core Team (2022);
+type `?iris`.
 
 ```{r dataLinRegNormVarying}
 data("iris")
@@ -1318,7 +1314,7 @@ rm(dataList, draws, stanLinRegNormVarying, looLinRegNormVarying)
 
 ## Multi-level ANOVA-like regression
 
-### Data, visualisation and research question
+### Data and visualisation
 
 **data set** `massMonitoring.csv` and **variables**, as in Sec. ... above.
 
@@ -1490,7 +1486,7 @@ rm(dataList, draws, stanAnovaRegNormVarying, looLinRegNormVarying)
 
 ## Multi-level logistic regression
 
-### Data, visualisation and research question
+### Data and visualisation
 
 **data set** `bankloan.RData` (IBM SPSS tutorial binary logistic regression),
 URL (cited on August 21, 2022):
@@ -1730,7 +1726,7 @@ rm(dataList, draws, stanLogistRegBernVarying, looLogistRegBernVarying)
 
 ## Multi-level Poisson regression
 
-### Data, visualisation and research question
+### Data and visualisation
 
 **data set** `poissonData.RData` and **variables**, as in Sec. ... above.
 
@@ -1970,7 +1966,7 @@ rm(dataList, draws, stanPoisRegVarying, looPoisRegVarying)
 
 ## Multi-level exponential regression
 
-### Data, visualisation and research question
+### Data and visualisation
 
 **data set** `tramWait.RData` and **variables**, as in Sec. ... above.
 
@@ -2190,17 +2186,22 @@ rm(dataList, draws, stanExpRegVarying, looExpRegVarying)
 
 # Time series analysis
 
+The **stationarity** property of time series data may be checked with unit root 
+tests from the R package `urca` by Pfaff (2008). We skip this issue at this
+point for reasons of space.
+
 ## Stationary linear $\text{AR}(p)$-model with Gauß likelihood
 
 blog entry by Daniel Foley, dated Nov 10, 2018, on
 "A Bayesian approach to time series forecasting", URL (cited on August 27,
 2022): https://towardsdatascience.com/a-bayesian-approach-to-time-series-forecasting-d97dd4168cb7
 
-### Data, visualisation and research question
+### Data and visualisation
 
-**data set** `USGDPpcData.RData`, US GDP growth data from the Federal Reserve
+**data set** `USGDPpcData.RData`, US GDP growth data from the period
+`1947-04-01` to `2018-10-01`, made available by the Federal Reserve
 of St. Louis website at the URL (cited on August 27, 2022): 
-https://fred.stlouisfed.org/series/GDPC1#0;
+https://fred.stlouisfed.org/series/GDPC1#0.
 
 ```{r dataAR_p_NormFixed}
 load("USGDPpc.RData")
@@ -2223,7 +2224,7 @@ head(x = dat)
 
 `y`: quarterly percentage change of US GDP [1] (`percentage_change`)
 
-Prsent consideration restricted to the observations from the period
+Present consideration restricted to the observations from the period
 `1994-01-01` to `2018-10-01`.
 
 **visualisation**
@@ -2379,9 +2380,10 @@ rm(dataList, draws, stanAR_p_NormFixed)
 
 ## Stationary linear $\text{GARCH}(1,1)$-model with Gauß likelihood
 
+phases of volatility clustering;
 Bollerslev (1986), Bürkner *et al* (2020), approximating exact LFO-CV.
 
-### Data, visualisation and research question
+### Data and visualisation
 
 **data set** `massChangeData.RData`, **variables**
 
@@ -2453,7 +2455,7 @@ $0 < \alpha_{1}, \beta_{1} < 1$, with the constraint $\alpha_{1} + \beta_{1}
 \[
 \text{Fixed priors:} \quad
 \mu \sim \mathrm{N}\left(0~\mathrm{kg}, (1,5~\mathrm{kg})^{2}\right) \ , \qquad
-\alpha_{0} \sim \mathrm{Exp}(1) \ , \qquad
+\alpha_{0} \sim \mathrm{Exp}(1/(1~\mathrm{kg})^{2}) \ , \qquad
 \alpha_{1}, \beta_{1} \sim \mathrm{Be}(1,1)
 \]
 
@@ -2582,20 +2584,22 @@ rm(dataList, draws, stanGARCH_1_1_NormFixed)
 
 12. R McElreath (2020) *Statistical Rethinking — A Bayesian Course with Examples in R and Stan* 2nd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9780367139919
 
-13. R Core Team (2022) R: A language and environment for statistical computing (Wien: R Foundation for Statistical Computing) URL (cited on August 18, 2022): https://www.R-project.org
+13. B Pfaff (2008) *Analysis of Integrated and Cointegrated Time Series with R* 2nd Edition (New York: Springer) ISBN-10: 0387279601 URL (cited on August 28, 2022): http://www.pfaffikus.de
 
-14. B Schloerke, D Cook, J Larmarange, F Briatte, M Marbach, E Thoen, A Elberg and J Crowley (2021) GGally: Extension to 'ggplot2' (R package version 2.1.2) URL (cited on August 21,  2022): https://CRAN.R-project.org/package=GGally
+14. R Core Team (2022) R: A language and environment for statistical computing (Wien: R Foundation for Statistical Computing) URL (cited on August 18, 2022): https://www.R-project.org
 
-15. Stan Development Team (2022a) *Stan* URL (cited on August 18, 2022): https://mc-stan.org
+15. B Schloerke, D Cook, J Larmarange, F Briatte, M Marbach, E Thoen, A Elberg and J Crowley (2021) GGally: Extension to 'ggplot2' (R package version 2.1.2) URL (cited on August 21,  2022): https://CRAN.R-project.org/package=GGally
 
-16. Stan Development Team (2022b) rstan: R interface to Stan (R package version 2.21.5) URL (cited on August 17, 2022): https://CRAN.R-project.org/package=rstan
+16. Stan Development Team (2022a) *Stan* URL (cited on August 18, 2022): https://mc-stan.org
 
-17. A Vehtari, J Gabry, M Magnusson, Y Yao, P Bürkner, T Paananen and A Gelman (2022) loo: Efficient leave-one-out cross-validation and WAIC for Bayesian models (R package version 2.5.1) URL (cited on August 20, 2022): https://mc-stan.org/loo/
+17. Stan Development Team (2022b) rstan: R interface to Stan (R package version 2.21.5) URL (cited on August 17, 2022): https://CRAN.R-project.org/package=rstan
 
-18. H Wickham, M Averick, J Bryan, W Chang, L D McGowan, R François, G Grolemund, A Hayes, L Henry, J Hester, M Kuhn, T L Pedersen, E Miller, S M Bache, K Müller, J Ooms, D Robinson, D P Seidel, V Spinu, K Takahashi, D Vaughan, C Wilke, K Woo and H Yutani (2019) Welcome to the tidyverse *Journal of Open Source Software* **4** (43) 1686 DOI: https://doi.org/10.21105/joss.01686
+18. A Vehtari, J Gabry, M Magnusson, Y Yao, P Bürkner, T Paananen and A Gelman (2022) loo: Efficient leave-one-out cross-validation and WAIC for Bayesian models (R package version 2.5.1) URL (cited on August 20, 2022): https://mc-stan.org/loo/
 
-19. H Wickham H and D Seidel (2022) scales: Scale functions for visualization (R package version 1.2.0) URL (cited on August 27, 2022): https://CRAN.R-project.org/package=scales
-  
+19. H Wickham, M Averick, J Bryan, W Chang, L D McGowan, R François, G Grolemund, A Hayes, L Henry, J Hester, M Kuhn, T L Pedersen, E Miller, S M Bache, K Müller, J Ooms, D Robinson, D P Seidel, V Spinu, K Takahashi, D Vaughan, C Wilke, K Woo and H Yutani (2019) Welcome to the tidyverse *Journal of Open Source Software* **4** (43) 1686 DOI: https://doi.org/10.21105/joss.01686
+
+20. H Wickham H and D Seidel (2022) scales: Scale functions for visualization (R package version 1.2.0) URL (cited on August 27, 2022): https://CRAN.R-project.org/package=scales
+
 # Information on current R session
   
 ```{r session, echo = FALSE}

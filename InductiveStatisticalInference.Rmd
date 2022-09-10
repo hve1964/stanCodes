@@ -1071,7 +1071,7 @@ rm(dataList, draws, stanExpRegFixed)
 
 **data set** `iris` by Anderson (1935), and popularised by Fisher (1936);
 URL (cited on September 10, 2022): 
-https://en.wikipedia.org/wiki/Iris_flower_data_set. This dataset is contained
+https://en.wikipedia.org/wiki/Iris_flower_data_set. This data set is contained
 in the R package `datasets` by the R Core Team (2022);
 type `?iris`.
 

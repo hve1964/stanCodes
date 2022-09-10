@@ -853,7 +853,8 @@ head(x = Z)
 **visualisation** 
 
 ```{r visExpRegFixed}
-Z %>%
+dplyr::bind_cols(dat$wait, Z) %>%
+  magrittr::set_colnames(x = ., value = c("y", "x1", "x2")) %>%
   GGally::ggpairs(data = ., title = "Scatter plot matrix") +
   ggplot2::theme_bw()
 ```

@@ -82,7 +82,7 @@ August 22, 2022): https://mc-stan.org/docs/stan-users-guide/modeling-temporal-he
     gp: level of education: "did not complete high school" (1), "high school degree" (2), "some college" (3), "college degree" (4), "doctorate" (5)
 
 (viii) USGDPpc.RData (raw USGDP data from the Federal Reserve of St. Louis website, URL: https://fred.stlouisfed.org/series/GDPC1#0) [Stationary linear AR(p)-model (fixed effects)]:
-    y: quarterly percentage of USGDP [%]
+    y: quarterly percentage change of USGDP [%]
 
 (ix) massChangeData.RData [Stationary linear GARCH(1,1)-model (fixed effects)]:
     y: mass change between two successive measurements [kg]

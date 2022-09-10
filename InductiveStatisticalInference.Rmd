@@ -917,6 +917,14 @@ Z <-
 head(x = Z)
 ```
 
+**visualisation** 
+
+```{r visExpRegFixed}
+Z %>%
+  GGally::ggpairs(data = ., title = "Scatter plot matrix") +
+  ggplot2::theme_bw()
+```
+
 **design matrix**
 
 ```{r designExpRegFixed}

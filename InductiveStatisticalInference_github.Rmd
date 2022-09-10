@@ -276,7 +276,7 @@ head(x = dat)
 
 **variables**
 
-`y`: body mass [kg] (`X1`)
+`y`: body mass (kg) (`X1`)
 
 `gp`: year of observation (`X2`)
 
@@ -455,18 +455,18 @@ dat %>%
 
 `y`: indicator of the presence of calcium oxalate crystals: {0, 1} (`r`)
 
-`x1`: standardised specific gravity of the urine [1] (`gravity`)
+`x1`: standardised specific gravity of the urine (1) (`gravity`)
 
-`x2`: standardised pH reading of the urine [1] (`ph`)
+`x2`: standardised pH reading of the urine (1) (`ph`)
 
-`x3`: standardised osmolarity of the urine [milliosmoles per litre] (`osmo`)
+`x3`: standardised osmolarity of the urine (milliosmoles per litre) (`osmo`)
 
-`x4`: standardised conductivity of the urine [micro-Siemens per centimetre] 
+`x4`: standardised conductivity of the urine (micro-Siemens per centimetre) 
 (`cond`)
 
-`x5`: standardised urea concentration [millimoles per litre] (`urea`)
+`x5`: standardised urea concentration (millimoles per litre) (`urea`)
 
-`x6`: standardised calcium concentration [millimoles per litre] (`calc`)
+`x6`: standardised calcium concentration (millimoles per litre) (`calc`)
 
 ```{r standLogistRegBernFixed}
 Z <-
@@ -649,13 +649,13 @@ dat %>%
 
 **standardisation** of **variables**
 
-`y`: count of planes touching down inside of a 15 min observation interval [1]
+`y`: count of planes touching down inside of a 15 min observation interval (1)
 
-`x1`: standardised start of 15 min observation interval [h]
+`x1`: standardised start of 15 min observation interval (h)
 
-`x2`: standardised estimated Beaufort wind force scale number [1]
+`x2`: standardised estimated Beaufort wind force scale number (1)
 
-`x3`: standardised wind direction [1]
+`x3`: standardised wind direction (1)
 
 `gp`: day-of-week ID: Monday (`1`) to Sunday (`7`)
 
@@ -830,13 +830,13 @@ head(x = dat)
 
 **standardisation** of **variables**
 
-`y`: waiting time for tram to arrive at stop [min] (`wait`)
+`y`: waiting time for tram to arrive at stop (min) (`wait`)
 
 `x1`: standardised number of tram conductors available on tram line on day of 
-observation [1] (`conductors`)
+observation (1) (`conductors`)
 
 `x2`: standardised number of passengers having left or entered tram at previous 
-stops [1] (`passChanged`)
+stops (1) (`passChanged`)
 
 `gp`: tram line number (`1` to `10`) (`tram`)
 
@@ -848,6 +848,14 @@ Z <-
   magrittr::set_colnames(x = ., value = c("x1", "x2")) %>%
   tibble::as_tibble(x = .)
 head(x = Z)
+```
+
+**visualisation** 
+
+```{r visExpRegFixed}
+Z %>%
+  GGally::ggpairs(data = ., title = "Scatter plot matrix") +
+  ggplot2::theme_bw()
 ```
 
 **design matrix**
@@ -1014,13 +1022,13 @@ dat %>%
 
 **standardisation** of **variables**
 
-`y`: standardised petal width [cm] (`Petal.Width`)
+`y`: standardised petal width (cm) (`Petal.Width`)
 
-`x1`: standardised sepal length [cm] (`Sepal.Length`)
+`x1`: standardised sepal length (cm) (`Sepal.Length`)
 
-`x2`: standardised sepal width [cm] (`Sepal.Width`)
+`x2`: standardised sepal width (cm) (`Sepal.Width`)
 
-`x3`: standardised petal length [cm] (`Petal.Length`)
+`x3`: standardised petal length (cm) (`Petal.Length`)
 
 `gp`: group index: `1` (`setosa`), `2` (`versicolor`), `3` (`virginica`)
 
@@ -1360,19 +1368,19 @@ head(x = dat)
 
 `y`: indicator of previous defaults: {0, 1} (`default`)
 
-`x1`: standardised age [yr] (`age`)
+`x1`: standardised age (yr) (`age`)
 
-`x2`: standardised years with current employer [yr] (`employ`)
+`x2`: standardised years with current employer (yr) (`employ`)
 
-`x3`: standardised years at current address [yr] (`address`)
+`x3`: standardised years at current address (yr) (`address`)
 
-`x4`: standardised household income [$ 10³] (`income`)
+`x4`: standardised household income ($ 10³) (`income`)
 
-`x5`: standardised debt to income ratio [%] (`debtinc`)
+`x5`: standardised debt to income ratio (%) (`debtinc`)
 
-`x6`: standardised credit card debt [$ 10³] (`creddebt`)
+`x6`: standardised credit card debt ($ 10³) (`creddebt`)
 
-`x7`: standardised other debt [$ 10³] (`othdebt`)
+`x7`: standardised other debt ($ 10³) (`othdebt`)
 
 `gp`: level of education: "did not complete high school" (`1`), "high school 
 degree" (`2`), "some college" (`3`), "college degree" (`4`), "doctorate" (`5`) 
@@ -1971,7 +1979,7 @@ head(x = dat)
 
 `T`: date of observation (`date`)
 
-`y`: quarterly percentage change of US GDP [1] (`percentage_change`)
+`y`: quarterly percentage change of US GDP (1) (`percentage_change`)
 
 Present consideration restricted to the observations from the period
 `1994-01-01` to `2018-10-01`.
@@ -2133,7 +2141,7 @@ head(x = dat)
 
 `T`: date of observation (`date`)
 
-`y`: mass change [kg] (`massChange`)
+`y`: mass change (kg) (`massChange`)
 
 observations from the period `2015-01-01` to
 `2016-12-31`.

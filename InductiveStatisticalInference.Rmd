@@ -58,7 +58,7 @@ rstan::stan_version()
 
 **data set** `ashenfelter.RData` by Ashenfelter, Ashmore and Lalonde, URL (cited
 on August 17, 2022): http://www.liquidasset.com/); cf. Kahneman (2011). Check
-for an remove NAs.
+for and remove NAs.
 
 ```{r dataLinRegNormFixed}
 load("ashenfelter.RData")
@@ -1061,7 +1061,10 @@ rm(dataList, draws, stanExpRegFixed)
 
 ### Data and visualisation
 
-**data set** `iris` from R package `datasets` by the R Core Team (2022);
+**data set** `iris` by Anderson (1935), and popularised by Fisher (1936);
+URL (cited on September 10, 2022): 
+https://en.wikipedia.org/wiki/Iris_flower_data_set. This dataset is contained
+in the R package `datasets` by the R Core Team (2022);
 type `?iris`.
 
 ```{r dataLinRegNormVarying}
@@ -1316,7 +1319,7 @@ rm(dataList, draws, stanLinRegNormVarying, looLinRegNormVarying)
 
 ### Data and visualisation
 
-**data set** `massMonitoring.csv` and **variables**, as in Sec. ... above.
+**data set** `massMonitoring.csv` and **variables**, as in Sec. 3.2.1 above.
 
 ```{r dataAnovaRegNormVarying}
 dat <-
@@ -1728,7 +1731,7 @@ rm(dataList, draws, stanLogistRegBernVarying, looLogistRegBernVarying)
 
 ### Data and visualisation
 
-**data set** `poissonData.RData` and **variables**, as in Sec. ... above.
+**data set** `poissonData.RData` and **variables**, as in Sec. 3.4.1 above.
 
 ```{r dataPoisRegVarying}
 load("poissonData.RData")
@@ -1968,7 +1971,7 @@ rm(dataList, draws, stanPoisRegVarying, looPoisRegVarying)
 
 ### Data and visualisation
 
-**data set** `tramWait.RData` and **variables**, as in Sec. ... above.
+**data set** `tramWait.RData` and **variables**, as in Sec. 3.5.1 above.
 
 ```{r dataExpRegVarying}
 load("tramWait.RData")
@@ -2560,45 +2563,49 @@ rm(dataList, draws, stanGARCH_1_1_NormFixed)
 
 # References
 
-1. S Bache and H Wickham (2022) magrittr: A forward-pipe operator for R (R package version 2.0.3) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=magrittr
+1. E Anderson (1935) The irises of the Gaspe Peninsula *Bulletin of the American Iris Society* **59** 2-5
 
-2. T Bollerslev (1986) Generalized autoregressive conditional heteroskedasticity *Journal of Econometrics* **31** 307-327 DOI: https://doi.org/10.1016/0304-4076(86)90063-1
+2. S Bache and H Wickham (2022) magrittr: A forward-pipe operator for R (R package version 2.0.3) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=magrittr
 
-3. P-C Bürkner, J Gabry and A Vehtari (2020) Approximate leave-future-out cross-validation for Bayesian time series models *Journal of Statistical Computation and Simulation* **90** 2499–2523 DOI: https://doi.org/10.1080/00949655.2020.1783262
+3. T Bollerslev (1986) Generalized autoregressive conditional heteroskedasticity *Journal of Econometrics* **31** 307-327 DOI: https://doi.org/10.1016/0304-4076(86)90063-1
 
-4. A Canty and B Ripley (2021) boot: Bootstrap R (S-Plus) functions (R package version 1.3-28) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=boot
+4. P-C Bürkner, J Gabry and A Vehtari (2020) Approximate leave-future-out cross-validation for Bayesian time series models *Journal of Statistical Computation and Simulation* **90** 2499–2523 DOI: https://doi.org/10.1080/00949655.2020.1783262
 
-5. B Carpenter, A Gelman, M D Hoffman, D Lee, B Goodrich, M Betancourt, M Brubaker, J Guo, P Li and A Riddell (2017) Stan: A probabilistic programming language *Journal of Statistical Software* **76** 1–32 DOI: https://doi.org/10.18637/jss.v076.i01
+5. A Canty and B Ripley (2021) boot: Bootstrap R (S-Plus) functions (R package version 1.3-28) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=boot
 
-6. H van Elst (2022) An introduction to inductive statistical inference: from parameter estimation to decision-making *eprint* arXiv:1808.10173v3 [stat.AP] URL: https://arxiv.org/abs/1808.10173 [See also URL: https://www.researchgate.net/publication/327336588_An_Introduction_to_Inductive_Statistical_Inference_from_Parameter_Estimation_to_Decision-Making_version_3]
+6. B Carpenter, A Gelman, M D Hoffman, D Lee, B Goodrich, M Betancourt, M Brubaker, J Guo, P Li and A Riddell (2017) Stan: A probabilistic programming language *Journal of Statistical Software* **76** 1–32 DOI: https://doi.org/10.18637/jss.v076.i01
 
-7. J Gabry, Daniel Simpson, A Vehtari, M Betancourt and A Gelman (2019) Visualization in Bayesian workflow *Journal of the Royal Statistical Society: Series A (Statistics in Society)* **182** 389-402 DOI: https://doi.org/10.1111/rssa.12378 [arXiv: https://arxiv.org/abs/1709.01449]
+7. H van Elst (2022) An introduction to inductive statistical inference: from parameter estimation to decision-making *eprint* arXiv:1808.10173v3 [stat.AP] URL: https://arxiv.org/abs/1808.10173 [See also URL: https://www.researchgate.net/publication/327336588_An_Introduction_to_Inductive_Statistical_Inference_from_Parameter_Estimation_to_Decision-Making_version_3]
 
-8. J Gabry and T Mahr (2022) bayesplot: Plotting for Bayesian models (R package version 1.9.0) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=bayesplot
+8. R A Fisher (1936) The use of multiple measurements in taxonomic problems *Annals of Eugenics* **7** (Part II) 179-188
 
-9. A Gelman, J B Carlin, H S Stern, D B Dunson, A Vehtari and D B Rubin (2014) *Bayesian Data Analysis* 3rd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9781439840955
+9. J Gabry, Daniel Simpson, A Vehtari, M Betancourt and A Gelman (2019) Visualization in Bayesian workflow *Journal of the Royal Statistical Society: Series A (Statistics in Society)* **182** 389-402 DOI: https://doi.org/10.1111/rssa.12378 [arXiv: https://arxiv.org/abs/1709.01449]
 
-10. G Grolemund and Hadley Wickham (2011) Dates and times made easy with lubridate *Journal of Statistical Software* **40**(3) 1-25 URL: https://www.jstatsoft.org/v40/i03/
+10. J Gabry and T Mahr (2022) bayesplot: Plotting for Bayesian models (R package version 1.9.0) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=bayesplot
 
-11. D Kahneman (2011) Thinking, Fast and Slow (London: Penguin) ISBN–13: 9780141033570
+11. A Gelman, J B Carlin, H S Stern, D B Dunson, A Vehtari and D B Rubin (2014) *Bayesian Data Analysis* 3rd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9781439840955
 
-12. R McElreath (2020) *Statistical Rethinking — A Bayesian Course with Examples in R and Stan* 2nd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9780367139919
+12. G Grolemund and Hadley Wickham (2011) Dates and times made easy with lubridate *Journal of Statistical Software* **40**(3) 1-25 URL: https://www.jstatsoft.org/v40/i03/
 
-13. B Pfaff (2008) *Analysis of Integrated and Cointegrated Time Series with R* 2nd Edition (New York: Springer) ISBN-10: 0387279601 URL (cited on August 28, 2022): http://www.pfaffikus.de
+13. D Kahneman (2011) Thinking, Fast and Slow (London: Penguin) ISBN–13: 9780141033570
 
-14. R Core Team (2022) R: A language and environment for statistical computing (Wien: R Foundation for Statistical Computing) URL (cited on August 18, 2022): https://www.R-project.org
+14. R McElreath (2020) *Statistical Rethinking — A Bayesian Course with Examples in R and Stan* 2nd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9780367139919
 
-15. B Schloerke, D Cook, J Larmarange, F Briatte, M Marbach, E Thoen, A Elberg and J Crowley (2021) GGally: Extension to 'ggplot2' (R package version 2.1.2) URL (cited on August 21,  2022): https://CRAN.R-project.org/package=GGally
+16. B Pfaff (2008) *Analysis of Integrated and Cointegrated Time Series with R* 2nd Edition (New York: Springer) ISBN-10: 0387279601 URL (cited on August 28, 2022): http://www.pfaffikus.de
 
-16. Stan Development Team (2022a) *Stan* URL (cited on August 18, 2022): https://mc-stan.org
+17. R Core Team (2022) R: A language and environment for statistical computing (Wien: R Foundation for Statistical Computing) URL (cited on August 18, 2022): https://www.R-project.org
 
-17. Stan Development Team (2022b) rstan: R interface to Stan (R package version 2.21.5) URL (cited on August 17, 2022): https://CRAN.R-project.org/package=rstan
+18. B Schloerke, D Cook, J Larmarange, F Briatte, M Marbach, E Thoen, A Elberg and J Crowley (2021) GGally: Extension to 'ggplot2' (R package version 2.1.2) URL (cited on August 21,  2022): https://CRAN.R-project.org/package=GGally
 
-18. A Vehtari, J Gabry, M Magnusson, Y Yao, P Bürkner, T Paananen and A Gelman (2022) loo: Efficient leave-one-out cross-validation and WAIC for Bayesian models (R package version 2.5.1) URL (cited on August 20, 2022): https://mc-stan.org/loo/
+19. Stan Development Team (2022a) *Stan* URL (cited on August 18, 2022): https://mc-stan.org
 
-19. H Wickham, M Averick, J Bryan, W Chang, L D McGowan, R François, G Grolemund, A Hayes, L Henry, J Hester, M Kuhn, T L Pedersen, E Miller, S M Bache, K Müller, J Ooms, D Robinson, D P Seidel, V Spinu, K Takahashi, D Vaughan, C Wilke, K Woo and H Yutani (2019) Welcome to the tidyverse *Journal of Open Source Software* **4** (43) 1686 DOI: https://doi.org/10.21105/joss.01686
+20. Stan Development Team (2022b) rstan: R interface to Stan (R package version 2.21.5) URL (cited on August 17, 2022): https://CRAN.R-project.org/package=rstan
 
-20. H Wickham H and D Seidel (2022) scales: Scale functions for visualization (R package version 1.2.0) URL (cited on August 27, 2022): https://CRAN.R-project.org/package=scales
+21. A Vehtari, J Gabry, M Magnusson, Y Yao, P Bürkner, T Paananen and A Gelman (2022) loo: Efficient leave-one-out cross-validation and WAIC for Bayesian models (R package version 2.5.1) URL (cited on August 20, 2022): https://mc-stan.org/loo/
+
+22. H Wickham, M Averick, J Bryan, W Chang, L D McGowan, R François, G Grolemund, A Hayes, L Henry, J Hester, M Kuhn, T L Pedersen, E Miller, S M Bache, K Müller, J Ooms, D Robinson, D P Seidel, V Spinu, K Takahashi, D Vaughan, C Wilke, K Woo and H Yutani (2019) Welcome to the tidyverse *Journal of Open Source Software* **4** (43) 1686 DOI: https://doi.org/10.21105/joss.01686
+
+23. H Wickham H and D Seidel (2022) scales: Scale functions for visualization (R package version 1.2.0) URL (cited on August 27, 2022): https://CRAN.R-project.org/package=scales
 
 # Information on current R session
   

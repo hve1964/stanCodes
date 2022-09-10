@@ -58,7 +58,7 @@ rstan::stan_version()
 
 **data set** `ashenfelter.RData` by Ashenfelter, Ashmore and Lalonde, URL (cited
 on August 17, 2022): http://www.liquidasset.com/); cf. Kahneman (2011). Check
-for an remove NAs.
+for and remove NAs.
 
 ```{r dataLinRegNormFixed}
 load("ashenfelter.RData")
@@ -75,15 +75,15 @@ head(x = dat)
 **standardisation** of **variables**
 
 `y`: standardised logarithm of average vintage wine price relative to 1961
-vintage [1] (`LPRICE2`)
+vintage (1) (`LPRICE2`)
 
-`x1`: standardised winter (October-March) rain [ml] (`WRAIN`)
+`x1`: standardised winter (October-March) rain (ml) (`WRAIN`)
 
-`x2`: standardised average temperature April-September [°C] (`DEGREES`)
+`x2`: standardised average temperature April-September (°C) (`DEGREES`)
 
-`x3`: standardised harvest (August and September) rain [ml] (`HRAIN`)
+`x3`: standardised harvest (August and September) rain (ml) (`HRAIN`)
 
-`x4`: standardised time since vintage [yr] (zero-point year: 1983) (`TIME_SV`)
+`x4`: standardised time since vintage (yr) (zero-point year: 1983) (`TIME_SV`)
 
 ```{r standLinRegNormFixed}
 Z <-
@@ -128,28 +128,8 @@ rm(dat, X, Z)
 
 ### Statistical model
 
-**model parameters** $\boldsymbol{\beta}$ and $\sigma$
+See Sec. 7.1 in van Elst (2022); **model parameters** `beta` and `sigma`.
 
-\[
-\text{Likelihood:}  \qquad
-\left.\boldsymbol{y}\right| \boldsymbol{X}, \boldsymbol{\beta},
-\sigma^{2}, I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{N}(\mu, \sigma^{2}) \ ,
-\qquad
-\sigma^{2} := \mathrm{Var}\left(\left.\boldsymbol{y}\right| \boldsymbol{X}, \boldsymbol{\beta}, I\right) = \text{constant}
-\]
-\[
-\text{Linear model:} \qquad
-\mu := \mathrm{E}\left(\left.\boldsymbol{y}\right| \boldsymbol{X}, 
-\boldsymbol{\beta}, \sigma^{2}, I\right) = \boldsymbol{X}\boldsymbol{\beta}
-\]
-\[
-\text{Regularising fixed priors:} \qquad
-\left.\boldsymbol{\beta} \right| \sigma^{2}, I
-\sim \mathrm{N}(0, 1) \ ,
-\qquad \left.\sigma\right| I
-\sim \mathrm{Exp}(1)
-\]
 
 ### Fitting a Stan model: Gauß likelihood and regularising fixed priors
 
@@ -326,24 +306,8 @@ rm(dat)
 
 ### Statistical model
 
-**model parameters** $\boldsymbol{\mu}[gp]$ and $\sigma$
+See Sec. 7.2 in van Elst (2022); **model parameters** `mu[gp]` and `sigma`.
 
-\[
-\text{Likelihood:}  \qquad
-\left.\boldsymbol{y}\right| \boldsymbol{\mu},
-\sigma^{2}, [gp], I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{N}(\boldsymbol{\mu}[gp], \sigma^{2}) \ ,
-\qquad
-\sigma^{2} := \mathrm{Var}\left(\left.\boldsymbol{y}\right| I\right) = 
-\text{constant}
-\]
-\[
-\text{Fixed priors:} \qquad
-\left.\boldsymbol{\mu}[gp] \right| \sigma^{2}, I
-\sim \mathrm{N}(90~\mathrm{kg}, (2~\mathrm{kg})^{2}) \ ,
-\qquad \left.\sigma\right| I
-\sim \mathrm{Exp}(1)
-\]
 
 ### Fitting a Stan model: Gauß likelihood, homogeneous variances and fixed priors
 
@@ -540,23 +504,8 @@ rm(dat, X, Z)
 
 ### Statistical model
 
-**model parameters** $\boldsymbol{\beta}$
+See Sec. 7.3 in van Elst (2022); **model parameters** `beta`.
 
-\[
-\text{Likelihood:}  \qquad
-\left.\boldsymbol{y}\right| \boldsymbol{X}, \boldsymbol{\beta}, I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{Bern}(p)
-\]
-\[
-\text{Linear model:} \qquad
-\text{logit}(p) := \ln\left(\frac{p}{1-p}\right)
-= \boldsymbol{X}\boldsymbol{\beta}
-\]
-\[
-\text{Regularising fixed priors:} \qquad
-\left.\boldsymbol{\beta} \right| I
-\sim \mathrm{N}(0, 1)
-\]
 
 ### Fitting a Stan model: Bernoulli likelihood with logit link and regularising fixed priors
 
@@ -745,23 +694,7 @@ rm(dat, X, Z)
 
 ### Statistical model
 
-**model parameters** $\boldsymbol{\beta}$
-
-\[
-\text{Likelihood:}  \qquad
-\left.\boldsymbol{y}\right| \boldsymbol{X}, \boldsymbol{\beta}, I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{Pois}(\theta)
-\]
-\[
-\text{Linear model:} \qquad
-\ln\left(\theta\right)
-= \boldsymbol{X}\boldsymbol{\beta}
-\]
-\[
-\text{Regularising fixed priors:} \qquad
-\left.\boldsymbol{\beta} \right| I
-\sim \mathrm{N}(0, 1)
-\]
+See Sec. 7.4 in van Elst (2022); **model parameters** `beta`.
 
 
 ### Fitting a Stan model: Poisson likelihood with log link and regularising fixed priors
@@ -942,23 +875,8 @@ rm(dat, X, Z)
 
 ### Statistical model
 
-**model parameters** $\boldsymbol{\beta}$
+See Sec. 7.5 in van Elst (2022); **model parameters** `beta`.
 
-\[
-\text{Likelihood:}  \qquad
-\left.\boldsymbol{y}\right| \boldsymbol{X}, \boldsymbol{\beta}, I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{Exp}(\theta)
-\]
-\[
-\text{Linear model:} \qquad
-\ln\left(\theta/\theta_{0}\right)
-= \boldsymbol{X}\boldsymbol{\beta}
-\]
-\[
-\text{Regularising fixed priors:} \qquad
-\left.\boldsymbol{\beta} \right| I
-\sim \mathrm{N}(0, 1)
-\]
 
 ### Fitting a Stan model: Exponential likelihood with log link and regularising fixed priors
 
@@ -1061,7 +979,10 @@ rm(dataList, draws, stanExpRegFixed)
 
 ### Data and visualisation
 
-**data set** `iris` from R package `datasets` by the R Core Team (2022);
+**data set** `iris` by Anderson (1935), and popularised by Fisher (1936);
+URL (cited on September 10, 2022): 
+https://en.wikipedia.org/wiki/Iris_flower_data_set. This dataset is contained
+in the R package `datasets` by the R Core Team (2022);
 type `?iris`.
 
 ```{r dataLinRegNormVarying}
@@ -1146,54 +1067,10 @@ rm(dat, X, Z)
 
 ### Statistical model
 
-**model parameters** $\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]$,
-$\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp]$,
-$\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}$,
-$\boldsymbol{z}_{\boldsymbol{\beta}}[gp]$ and $\sigma$.
+See Sec. 9.2 in van Elst (2022);
+**model parameters** `gamma_beta[gp]`, `sigma_beta[gp]`, `L_R_beta`,
+`z_beta[gp]` and `sigma`.
 
-\[
-\text{Likelihood:}  \qquad
-\left.\boldsymbol{y}\right| \boldsymbol{X}, \boldsymbol{\beta},
-\sigma^{2}, [gp], I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{N}(
-\boldsymbol{\mu}[gp], \sigma^{2}) \ ,
-\qquad
-\sigma^{2} := \mathrm{Var}\left(\left.\boldsymbol{y}\right| \boldsymbol{X}, \boldsymbol{\beta}, [gp], I\right) = \text{constant}
-\]
-\[
-\text{Linear model:} \qquad
-\boldsymbol{\mu}[gp] := \mathrm{E}\left(\left.\boldsymbol{y}\right| \boldsymbol{X}, 
-\boldsymbol{\beta}, \sigma^{2}, [gp], I\right)
-= \boldsymbol{X}[gp]\,\boldsymbol{\beta}[gp]
-\]
-\[
-\text{Non-centred decomposition::} \qquad
-\boldsymbol{\beta}[gp]
-= \boldsymbol{u}\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]
-+ \text{diag}(\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp])\,
-\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}\,
-\boldsymbol{z}_{\boldsymbol{\beta}}[gp]
-\]
-\[
-\text{Regularising fixed priors:} \qquad
-\left.\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]
-\right|\sigma^{2}, I
-\sim \mathrm{N}(0, 1) \ ,
-\qquad
-\left.\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp]
-\right|\sigma^{2}, I
-\sim \mathrm{Exp}(1) \ ,
-\qquad
-\left.\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}
-\right|\sigma^{2}, I
-\sim \mathrm{LKJ}(2) \ ,
-\qquad
-\left.\boldsymbol{z}_{\boldsymbol{\beta}}[gp]\right|\sigma^{2}, I
-\sim \mathrm{N}(0, 1) \ ,
-\qquad
-\left.\sigma\right| I
-\sim \mathrm{Exp}(1)
-\]
 
 ### Fitting a Stan model: Gauß likelihood and adaptive priors (non-centred parametrisation)
 
@@ -1316,7 +1193,7 @@ rm(dataList, draws, stanLinRegNormVarying, looLinRegNormVarying)
 
 ### Data and visualisation
 
-**data set** `massMonitoring.csv` and **variables**, as in Sec. ... above.
+**data set** `massMonitoring.csv` and **variables**, as in Sec. 3.2.1 above.
 
 ```{r dataAnovaRegNormVarying}
 dat <-
@@ -1342,34 +1219,9 @@ rm(dat)
 
 ### Statistical model
 
-**model parameters** $\boldsymbol{\mu}[gp]$ and $\boldsymbol{\sigma}[gp]$
+See Sec. 9.3 in van Elst (2022); **model parameters** `mu[gp]` and 
+`sigma[gp]`.
 
-\[
-\text{Likelihood:}  \qquad
-\left.\boldsymbol{y}\right| \boldsymbol{\mu},
-\sigma^{2}, [gp], I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{N}(\boldsymbol{\mu}[gp],
-\boldsymbol{\sigma}^{2}[gp])
-\]
-\[
-\text{Adaptive priors:} \qquad
-\boldsymbol{\mu}[gp]
-\sim \mathrm{N}(\mu_{\mu}, \sigma_{\mu}^{2}) \ ,
-\qquad
-\boldsymbol{\sigma}[gp]
-\sim \mathrm{Exp}(\beta_{\sigma})
-\]
-\[
-\text{Weakly regularising fixed priors:} \qquad
-\mu_{\mu}
-\sim \mathrm{N}(90~\mathrm{kg}, (2~\mathrm{kg})^{2}) \ ,
-\qquad
-\sigma_{\mu}
-\sim \mathrm{Exp}(1) \ ,
-\qquad
-\beta_{\sigma}
-\sim \mathrm{Exp}(1)
-\]
 
 ### Fitting a Stan model: Gauß likelihood, inhomogeneous variances and adaptive priors
 
@@ -1573,44 +1425,9 @@ rm(dat, X, Z)
 
 ### Statistical model
 
-**model parameters** $\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]$,
-$\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp]$,
-$\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}$ and
-$\boldsymbol{z}_{\boldsymbol{\beta}}[gp]$.
+See Sec. 9.4 in van Elst (2022); **model parameters**
+`gamma_beta[gp]`, `sigma_beta[gp]`, `L_R_beta` and `z_beta[gp]`.
 
-\[
-\text{Likelihood:}  \qquad
-\left.\boldsymbol{y}\right| \boldsymbol{X}, \boldsymbol{\beta}, [gp], I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{Bern}(p[gp])
-\]
-\[
-\text{Linear model:} \qquad
-\text{logit}(p)[gp] :=
-\ln\left(\frac{p}{1-p}\right)[gp]
-= \boldsymbol{X}[gp]\,\boldsymbol{\beta}[gp]
-\]
-\[
-\text{Non-centred decomposition::} \qquad
-\boldsymbol{\beta}[gp]
-= \boldsymbol{u}\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]
-+ \text{diag}(\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp])\,
-\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}\,
-\boldsymbol{z}_{\boldsymbol{\beta}}[gp]
-\]
-\[
-\text{Regularising fixed priors:} \qquad
-\left.\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]\right| I
-\sim \mathrm{N}(0, 1) \ ,
-\qquad
-\left.\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp]\right| I
-\sim \mathrm{Exp}(1) \ ,
-\qquad
-\left.\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}\right| I
-\sim \mathrm{LKJ}(2) \ ,
-\qquad
-\left.\boldsymbol{z}_{\boldsymbol{\beta}}[gp]\right| I
-\sim \mathrm{N}(0, 1)
-\]
 
 ### Fitting a Stan model: Bernoulli likelihood with logit link and adaptive priors (non-centred parametrisation)
 
@@ -1728,7 +1545,7 @@ rm(dataList, draws, stanLogistRegBernVarying, looLogistRegBernVarying)
 
 ### Data and visualisation
 
-**data set** `poissonData.RData` and **variables**, as in Sec. ... above.
+**data set** `poissonData.RData` and **variables**, as in Sec. 3.4.1 above.
 
 ```{r dataPoisRegVarying}
 load("poissonData.RData")
@@ -1811,43 +1628,9 @@ rm(dat, X, Z)
 
 ### Statistical model
 
-**model parameters** $\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]$,
-$\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp]$,
-$\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}$ and
-$\boldsymbol{z}_{\boldsymbol{\beta}}[gp]$.
+See Sec. 9.5 in van Elst (2022); **model parameters**
+`gamma_beta[gp]`, `sigma_beta[gp]`, `L_R_beta` and `z_beta[gp]`.
 
-\[
-\text{Likelihood:}  \qquad
-\left.\boldsymbol{y}\right| \boldsymbol{X}, \boldsymbol{\beta}, [gp], I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{Pois}(\theta[gp])
-\]
-\[
-\text{Linear model:} \qquad
-\ln\left(\theta\right)[gp]
-= \boldsymbol{X}[gp]\,\boldsymbol{\beta}[gp]
-\]
-\[
-\text{Non-centred decomposition::} \qquad
-\boldsymbol{\beta}[gp]
-= \boldsymbol{u}\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]
-+ \text{diag}(\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp])\,
-\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}\,
-\boldsymbol{z}_{\boldsymbol{\beta}}[gp]
-\]
-\[
-\text{Regularising fixed priors:} \qquad
-\left.\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]\right| I
-\sim \mathrm{N}(0, 1) \ ,
-\qquad
-\left.\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp]\right| I
-\sim \mathrm{Exp}(1) \ ,
-\qquad
-\left.\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}\right| I
-\sim \mathrm{LKJ}(2) \ ,
-\qquad
-\left.\boldsymbol{z}_{\boldsymbol{\beta}}[gp]\right| I
-\sim \mathrm{N}(0, 1)
-\]
 
 ### Fitting a Stan model: Poisson likelihood with log link and adaptive priors (non-centred parametrisation)
 
@@ -1968,7 +1751,7 @@ rm(dataList, draws, stanPoisRegVarying, looPoisRegVarying)
 
 ### Data and visualisation
 
-**data set** `tramWait.RData` and **variables**, as in Sec. ... above.
+**data set** `tramWait.RData` and **variables**, as in Sec. 3.5.1 above.
 
 ```{r dataExpRegVarying}
 load("tramWait.RData")
@@ -2039,43 +1822,9 @@ rm(dat, X, Z)
 
 ### Statistical model
 
-**model parameters** $\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]$,
-$\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp]$,
-$\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}$ and
-$\boldsymbol{z}_{\boldsymbol{\beta}}[gp]$.
+See Sec. 9.6 in van Elst (2022); **model parameters**
+`gamma_beta[gp]`, `sigma_beta[gp]`, `L_R_beta` and `z_beta[gp]`.
 
-\[
-\text{Likelihood:}  \qquad
-\left.\boldsymbol{y}\right| \boldsymbol{X}, \boldsymbol{\beta}, [gp], I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{Exp}(\theta[gp])
-\]
-\[
-\text{Linear model:} \qquad
-\ln\left(\theta/\theta_{0}\right)[gp]
-= \boldsymbol{X}[gp]\,\boldsymbol{\beta}[gp]
-\]
-\[
-\text{Non-centred decomposition::} \qquad
-\boldsymbol{\beta}[gp]
-= \boldsymbol{u}\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]
-+ \text{diag}(\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp])\,
-\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}\,
-\boldsymbol{z}_{\boldsymbol{\beta}}[gp]
-\]
-\[
-\text{Regularising fixed priors:} \qquad
-\left.\boldsymbol{\gamma}_{\boldsymbol{\beta}}[gp]\right| I
-\sim \mathrm{N}(0, 1) \ ,
-\qquad
-\left.\boldsymbol{\sigma}_{\boldsymbol{\beta}}[gp]\right| I
-\sim \mathrm{Exp}(1) \ ,
-\qquad
-\left.\boldsymbol{L}_{\boldsymbol{R}_{\boldsymbol{\beta}}}\right| I
-\sim \mathrm{LKJ}(2) \ ,
-\qquad
-\left.\boldsymbol{z}_{\boldsymbol{\beta}}[gp]\right| I
-\sim \mathrm{N}(0, 1)
-\]
 
 ### Fitting a Stan model: Exponential likelihood with log link and adaptive priors (non-centred parametrisation)
 
@@ -2251,31 +2000,11 @@ rm(dat)
 
 ### Statistical model
 
-**model parameters** $\alpha$, $\beta_{i}$ and $\sigma^{2}$, with the constraint 
-$-1 < \beta_{i} < 1$ imposed in order to ensure a necessary (though not 
-sufficient) condition for stationarity to hold for the time series model to be
-constructed.
+See Sec. 10.1 in van Elst (2022); **model parameters** `alpha`, `beta`
+and `sigma`, with the constraint `-1 < \beta < 1` imposed in order to ensure a 
+necessary (though not sufficient) condition for stationarity to hold for the
+time series model to be constructed.
 
-\[
-\text{Likelihood:} \quad \left.y_{n}\right|y_{n-i}, \alpha,
-\beta_{i}, \sigma^{2}, I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{N}\left(\mu_{n}, \sigma^{2}\right) \ ,
-\qquad
-\sigma^{2}
-:= \mathrm{Var}\left(\left.y_{n}\right| I\right)
-= \text{constant}
-\]
-\[
-\text{Linear model:} \quad \mu_{n}
-:= \mathrm{E}\left(\left.y_{n}\right|y_{n-i}, \alpha,
-\beta_{i}, \sigma^{2}, I\right)
-= \alpha + \sum_{i=1}^{p}\beta_{i}y_{n-i}
-\]
-\[
-\text{Regularising fixed priors:} \quad
-\alpha, \beta_{i} \sim \mathrm{N}\left(0, 1\right) \ , \qquad
-\sigma \sim \mathrm{Exp}(1)
-\]
 
 ### Fitting a Stan model: Gauß likelihood with fixed priors
 
@@ -2433,31 +2162,10 @@ rm(dat)
 
 ### Statistical model
 
-**model parameters** $\mu$, $\alpha_{0} > 0$ and
-$0 < \alpha_{1}, \beta_{1} < 1$, with the constraint $\alpha_{1} + \beta_{1}
-< 1$ imposed in order to ensure stationarity.
+See Sec. 10.2 in van Elst (2022); **model parameters** `mu`,
+`alpha0 > 0` and `0 < alpha1, beta1 < 1`, with the constraint
+`alpha1 + beta1 < 1` imposed in order to ensure stationarity.
 
-\[
-\text{Likelihood:} \quad \left.y_{n}\right|y_{n-1}, \mu, \alpha_{0},
-\alpha_{1}, \beta_{1}, \sigma_{n-1}^{2}, I
-\stackrel{\mathrm{ind}}{\sim} \mathrm{N}\left(\mu, \sigma_{n}^{2}\right) \ ,
-\qquad
-\mu := \mathrm{E}\left(\left.y_{n}\right|I\right)
-= \text{constant}
-\]
-\[
-\text{Linear model:} \quad \sigma_{n}^{2}
-:= \mathrm{Var}\left(\left.y_{n}\right|y_{n-1}, \mu, \alpha_{0},
-\alpha_{1}, \beta_{1}, \sigma_{n-1}^{2}, I\right)
-= \alpha_{0} + \alpha_{1}\left(y_{n-1}-\mu\right)^{2}
-+ \beta_{1}\sigma_{n-1}^{2}
-\]
-\[
-\text{Fixed priors:} \quad
-\mu \sim \mathrm{N}\left(0~\mathrm{kg}, (1,5~\mathrm{kg})^{2}\right) \ , \qquad
-\alpha_{0} \sim \mathrm{Exp}(1/(1~\mathrm{kg})^{2}) \ , \qquad
-\alpha_{1}, \beta_{1} \sim \mathrm{Be}(1,1)
-\]
 
 ### Fitting a Stan model: Gauß likelihood with fixed priors
 
@@ -2560,45 +2268,49 @@ rm(dataList, draws, stanGARCH_1_1_NormFixed)
 
 # References
 
-1. S Bache and H Wickham (2022) magrittr: A forward-pipe operator for R (R package version 2.0.3) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=magrittr
+1. E Anderson (1935) The irises of the Gaspe Peninsula *Bulletin of the American Iris Society* **59** 2-5
 
-2. T Bollerslev (1986) Generalized autoregressive conditional heteroskedasticity *Journal of Econometrics* **31** 307-327 DOI: https://doi.org/10.1016/0304-4076(86)90063-1
+2. S Bache and H Wickham (2022) magrittr: A forward-pipe operator for R (R package version 2.0.3) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=magrittr
 
-3. P-C Bürkner, J Gabry and A Vehtari (2020) Approximate leave-future-out cross-validation for Bayesian time series models *Journal of Statistical Computation and Simulation* **90** 2499–2523 DOI: https://doi.org/10.1080/00949655.2020.1783262
+3. T Bollerslev (1986) Generalized autoregressive conditional heteroskedasticity *Journal of Econometrics* **31** 307-327 DOI: https://doi.org/10.1016/0304-4076(86)90063-1
 
-4. A Canty and B Ripley (2021) boot: Bootstrap R (S-Plus) functions (R package version 1.3-28) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=boot
+4. P-C Bürkner, J Gabry and A Vehtari (2020) Approximate leave-future-out cross-validation for Bayesian time series models *Journal of Statistical Computation and Simulation* **90** 2499–2523 DOI: https://doi.org/10.1080/00949655.2020.1783262
 
-5. B Carpenter, A Gelman, M D Hoffman, D Lee, B Goodrich, M Betancourt, M Brubaker, J Guo, P Li and A Riddell (2017) Stan: A probabilistic programming language *Journal of Statistical Software* **76** 1–32 DOI: https://doi.org/10.18637/jss.v076.i01
+5. A Canty and B Ripley (2021) boot: Bootstrap R (S-Plus) functions (R package version 1.3-28) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=boot
 
-6. H van Elst (2022) An introduction to inductive statistical inference: from parameter estimation to decision-making *eprint* arXiv:1808.10173v3 [stat.AP] URL: https://arxiv.org/abs/1808.10173 [See also URL: https://www.researchgate.net/publication/327336588_An_Introduction_to_Inductive_Statistical_Inference_from_Parameter_Estimation_to_Decision-Making_version_3]
+6. B Carpenter, A Gelman, M D Hoffman, D Lee, B Goodrich, M Betancourt, M Brubaker, J Guo, P Li and A Riddell (2017) Stan: A probabilistic programming language *Journal of Statistical Software* **76** 1–32 DOI: https://doi.org/10.18637/jss.v076.i01
 
-7. J Gabry, Daniel Simpson, A Vehtari, M Betancourt and A Gelman (2019) Visualization in Bayesian workflow *Journal of the Royal Statistical Society: Series A (Statistics in Society)* **182** 389-402 DOI: https://doi.org/10.1111/rssa.12378 [arXiv: https://arxiv.org/abs/1709.01449]
+7. H van Elst (2022) An introduction to inductive statistical inference: from parameter estimation to decision-making *eprint* arXiv:1808.10173v3 [stat.AP] URL: https://arxiv.org/abs/1808.10173 [See also URL: https://www.researchgate.net/publication/327336588_An_Introduction_to_Inductive_Statistical_Inference_from_Parameter_Estimation_to_Decision-Making_version_3]
 
-8. J Gabry and T Mahr (2022) bayesplot: Plotting for Bayesian models (R package version 1.9.0) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=bayesplot
+8. R A Fisher (1936) The use of multiple measurements in taxonomic problems *Annals of Eugenics* **7** (Part II) 179-188
 
-9. A Gelman, J B Carlin, H S Stern, D B Dunson, A Vehtari and D B Rubin (2014) *Bayesian Data Analysis* 3rd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9781439840955
+9. J Gabry, Daniel Simpson, A Vehtari, M Betancourt and A Gelman (2019) Visualization in Bayesian workflow *Journal of the Royal Statistical Society: Series A (Statistics in Society)* **182** 389-402 DOI: https://doi.org/10.1111/rssa.12378 [arXiv: https://arxiv.org/abs/1709.01449]
 
-10. G Grolemund and Hadley Wickham (2011) Dates and times made easy with lubridate *Journal of Statistical Software* **40**(3) 1-25 URL: https://www.jstatsoft.org/v40/i03/
+10. J Gabry and T Mahr (2022) bayesplot: Plotting for Bayesian models (R package version 1.9.0) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=bayesplot
 
-11. D Kahneman (2011) Thinking, Fast and Slow (London: Penguin) ISBN–13: 9780141033570
+11. A Gelman, J B Carlin, H S Stern, D B Dunson, A Vehtari and D B Rubin (2014) *Bayesian Data Analysis* 3rd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9781439840955
 
-12. R McElreath (2020) *Statistical Rethinking — A Bayesian Course with Examples in R and Stan* 2nd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9780367139919
+12. G Grolemund and Hadley Wickham (2011) Dates and times made easy with lubridate *Journal of Statistical Software* **40**(3) 1-25 URL: https://www.jstatsoft.org/v40/i03/
 
-13. B Pfaff (2008) *Analysis of Integrated and Cointegrated Time Series with R* 2nd Edition (New York: Springer) ISBN-10: 0387279601 URL (cited on August 28, 2022): http://www.pfaffikus.de
+13. D Kahneman (2011) Thinking, Fast and Slow (London: Penguin) ISBN–13: 9780141033570
 
-14. R Core Team (2022) R: A language and environment for statistical computing (Wien: R Foundation for Statistical Computing) URL (cited on August 18, 2022): https://www.R-project.org
+14. R McElreath (2020) *Statistical Rethinking — A Bayesian Course with Examples in R and Stan* 2nd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9780367139919
 
-15. B Schloerke, D Cook, J Larmarange, F Briatte, M Marbach, E Thoen, A Elberg and J Crowley (2021) GGally: Extension to 'ggplot2' (R package version 2.1.2) URL (cited on August 21,  2022): https://CRAN.R-project.org/package=GGally
+16. B Pfaff (2008) *Analysis of Integrated and Cointegrated Time Series with R* 2nd Edition (New York: Springer) ISBN-10: 0387279601 URL (cited on August 28, 2022): http://www.pfaffikus.de
 
-16. Stan Development Team (2022a) *Stan* URL (cited on August 18, 2022): https://mc-stan.org
+17. R Core Team (2022) R: A language and environment for statistical computing (Wien: R Foundation for Statistical Computing) URL (cited on August 18, 2022): https://www.R-project.org
 
-17. Stan Development Team (2022b) rstan: R interface to Stan (R package version 2.21.5) URL (cited on August 17, 2022): https://CRAN.R-project.org/package=rstan
+18. B Schloerke, D Cook, J Larmarange, F Briatte, M Marbach, E Thoen, A Elberg and J Crowley (2021) GGally: Extension to 'ggplot2' (R package version 2.1.2) URL (cited on August 21,  2022): https://CRAN.R-project.org/package=GGally
 
-18. A Vehtari, J Gabry, M Magnusson, Y Yao, P Bürkner, T Paananen and A Gelman (2022) loo: Efficient leave-one-out cross-validation and WAIC for Bayesian models (R package version 2.5.1) URL (cited on August 20, 2022): https://mc-stan.org/loo/
+19. Stan Development Team (2022a) *Stan* URL (cited on August 18, 2022): https://mc-stan.org
 
-19. H Wickham, M Averick, J Bryan, W Chang, L D McGowan, R François, G Grolemund, A Hayes, L Henry, J Hester, M Kuhn, T L Pedersen, E Miller, S M Bache, K Müller, J Ooms, D Robinson, D P Seidel, V Spinu, K Takahashi, D Vaughan, C Wilke, K Woo and H Yutani (2019) Welcome to the tidyverse *Journal of Open Source Software* **4** (43) 1686 DOI: https://doi.org/10.21105/joss.01686
+20. Stan Development Team (2022b) rstan: R interface to Stan (R package version 2.21.5) URL (cited on August 17, 2022): https://CRAN.R-project.org/package=rstan
 
-20. H Wickham H and D Seidel (2022) scales: Scale functions for visualization (R package version 1.2.0) URL (cited on August 27, 2022): https://CRAN.R-project.org/package=scales
+21. A Vehtari, J Gabry, M Magnusson, Y Yao, P Bürkner, T Paananen and A Gelman (2022) loo: Efficient leave-one-out cross-validation and WAIC for Bayesian models (R package version 2.5.1) URL (cited on August 20, 2022): https://mc-stan.org/loo/
+
+22. H Wickham, M Averick, J Bryan, W Chang, L D McGowan, R François, G Grolemund, A Hayes, L Henry, J Hester, M Kuhn, T L Pedersen, E Miller, S M Bache, K Müller, J Ooms, D Robinson, D P Seidel, V Spinu, K Takahashi, D Vaughan, C Wilke, K Woo and H Yutani (2019) Welcome to the tidyverse *Journal of Open Source Software* **4** (43) 1686 DOI: https://doi.org/10.21105/joss.01686
+
+23. H Wickham H and D Seidel (2022) scales: Scale functions for visualization (R package version 1.2.0) URL (cited on August 27, 2022): https://CRAN.R-project.org/package=scales
 
 # Information on current R session
   

@@ -17,10 +17,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This R Markdown `html_notebook` provides worked examples in statistical
 modelling accompanying the online lecture notes "An Introduction to Inductive 
-Statistical Inference" (URL: https://arxiv.org/abs/1808.10173). These worked
-examples are grouped into sections on each of "Fixed effects generalised linear 
-models", "Varying effects generalised linear models" and "Time series
-analysis". The worked examples are coded in the statistical programming
+Statistical Inference"; URL: https://arxiv.org/abs/1808.10173. These worked
+examples are grouped into sections on each of
+**Fixed effects generalised linear models**,
+**Varying effects generalised linear models** and
+**Time series analysis**.
+The worked examples are coded in the statistical programming
 languages R and Stan; cf. R Core Team (2022) and Carpenter *et al* (2017).
 Valuable suggestions on how to make effective use of visualisation in Bayesian 
 workflow have been put forward by Gabry *et al* (2019).
@@ -57,7 +59,7 @@ rstan::stan_version()
 ### Data and visualisation
 
 **data set** `ashenfelter.RData` by Ashenfelter, Ashmore and Lalonde, URL (cited
-on August 17, 2022): http://www.liquidasset.com/); cf. Kahneman (2011). Check
+on August 17, 2022): http://www.liquidasset.com/; cf. Kahneman (2011). Check
 for and remove NAs.
 
 ```{r dataLinRegNormFixed}
@@ -2204,9 +2206,9 @@ point for reasons of space.
 
 ## Stationary linear $\text{AR}(p)$-model with Gauß likelihood
 
-blog entry by Daniel Foley, dated Nov 10, 2018, on
+Blog entry by Daniel Foley, dated Nov 10, 2018, on
 "A Bayesian approach to time series forecasting", URL (cited on August 27,
-2022): https://towardsdatascience.com/a-bayesian-approach-to-time-series-forecasting-d97dd4168cb7
+2022): https://towardsdatascience.com/a-bayesian-approach-to-time-series-forecasting-d97dd4168cb7.
 
 ### Data and visualisation
 
@@ -2392,8 +2394,9 @@ rm(dataList, draws, stanAR_p_NormFixed)
 
 ## Stationary linear $\text{GARCH}(1,1)$-model with Gauß likelihood
 
-phases of volatility clustering;
-Bollerslev (1986), Bürkner *et al* (2020), approximating exact LFO-CV.
+Phases of **volatility clustering**;
+Bollerslev (1986). Bürkner *et al* (2020) on assessing predictive accuracyof
+time series models, approximating exact LFO-CV.
 
 ### Data and visualisation
 

@@ -2594,7 +2594,7 @@ rm(dataList, draws, stanGARCH_1_1_NormFixed)
 
 11. A Gelman, J B Carlin, H S Stern, D B Dunson, A Vehtari and D B Rubin (2014) *Bayesian Data Analysis* 3rd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9781439840955
 
-12. G Grolemund and Hadley Wickham (2011) Dates and times made easy with lubridate *Journal of Statistical Software* **40**(3) 1-25 URL: https://www.jstatsoft.org/v40/i03/
+12. G Grolemund and H Wickham (2011) Dates and times made easy with lubridate *Journal of Statistical Software* **40**(3) 1-25 URL: https://www.jstatsoft.org/v40/i03/
 
 13. D Kahneman (2011) Thinking, Fast and Slow (London: Penguin) ISBN–13: 9780141033570
 

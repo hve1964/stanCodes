@@ -2289,17 +2289,17 @@ rm(dataList, draws, stanGARCH_1_1_NormFixed)
 
 6. B Carpenter, A Gelman, M D Hoffman, D Lee, B Goodrich, M Betancourt, M Brubaker, J Guo, P Li and A Riddell (2017) Stan: A probabilistic programming language *Journal of Statistical Software* **76** 1–32 DOI: https://doi.org/10.18637/jss.v076.i01
 
-7. H van Elst (2022) An introduction to inductive statistical inference: from parameter estimation to decision-making *eprint* arXiv:1808.10173v3 [stat.AP] URL: https://arxiv.org/abs/1808.10173 [See also URL: https://www.researchgate.net/publication/327336588_An_Introduction_to_Inductive_Statistical_Inference_from_Parameter_Estimation_to_Decision-Making_version_3]
+7. H van Elst (2022) An introduction to inductive statistical inference: from parameter estimation to decision-making *eprint* arXiv:1808.10173v3 (stat.AP) URL: https://arxiv.org/abs/1808.10173; see also URL: https://www.researchgate.net/publication/327336588_An_Introduction_to_Inductive_Statistical_Inference_from_Parameter_Estimation_to_Decision-Making_version_3
 
 8. R A Fisher (1936) The use of multiple measurements in taxonomic problems *Annals of Eugenics* **7** (Part II) 179-188
 
-9. J Gabry, Daniel Simpson, A Vehtari, M Betancourt and A Gelman (2019) Visualization in Bayesian workflow *Journal of the Royal Statistical Society: Series A (Statistics in Society)* **182** 389-402 DOI: https://doi.org/10.1111/rssa.12378 [arXiv: https://arxiv.org/abs/1709.01449]
+9. J Gabry, Daniel Simpson, A Vehtari, M Betancourt and A Gelman (2019) Visualization in Bayesian workflow *Journal of the Royal Statistical Society: Series A (Statistics in Society)* **182** 389-402 DOI: https://doi.org/10.1111/rssa.12378 (arXiv: https://arxiv.org/abs/1709.01449)
 
 10. J Gabry and T Mahr (2022) bayesplot: Plotting for Bayesian models (R package version 1.9.0) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=bayesplot
 
 11. A Gelman, J B Carlin, H S Stern, D B Dunson, A Vehtari and D B Rubin (2014) *Bayesian Data Analysis* 3rd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9781439840955
 
-12. G Grolemund and Hadley Wickham (2011) Dates and times made easy with lubridate *Journal of Statistical Software* **40**(3) 1-25 URL: https://www.jstatsoft.org/v40/i03/
+12. G Grolemund and H Wickham (2011) Dates and times made easy with lubridate *Journal of Statistical Software* **40**(3) 1-25 URL: https://www.jstatsoft.org/v40/i03/
 
 13. D Kahneman (2011) Thinking, Fast and Slow (London: Penguin) ISBN–13: 9780141033570
 

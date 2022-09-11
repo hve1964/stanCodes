@@ -2305,21 +2305,21 @@ rm(dataList, draws, stanGARCH_1_1_NormFixed)
 
 14. R McElreath (2020) *Statistical Rethinking — A Bayesian Course with Examples in R and Stan* 2nd Edition (Boca Raton, FL: Chapman & Hall) ISBN–13: 9780367139919
 
-16. B Pfaff (2008) *Analysis of Integrated and Cointegrated Time Series with R* 2nd Edition (New York: Springer) ISBN-10: 0387279601 URL (cited on August 28, 2022): http://www.pfaffikus.de
+15. B Pfaff (2008) *Analysis of Integrated and Cointegrated Time Series with R* 2nd Edition (New York: Springer) ISBN-10: 0387279601 URL (cited on August 28, 2022): http://www.pfaffikus.de
 
-17. R Core Team (2022) R: A language and environment for statistical computing (Wien: R Foundation for Statistical Computing) URL (cited on August 18, 2022): https://www.R-project.org
+16. R Core Team (2022) R: A language and environment for statistical computing (Wien: R Foundation for Statistical Computing) URL (cited on August 18, 2022): https://www.R-project.org
 
-18. B Schloerke, D Cook, J Larmarange, F Briatte, M Marbach, E Thoen, A Elberg and J Crowley (2021) GGally: Extension to 'ggplot2' (R package version 2.1.2) URL (cited on August 21,  2022): https://CRAN.R-project.org/package=GGally
+17. B Schloerke, D Cook, J Larmarange, F Briatte, M Marbach, E Thoen, A Elberg and J Crowley (2021) GGally: Extension to 'ggplot2' (R package version 2.1.2) URL (cited on August 21,  2022): https://CRAN.R-project.org/package=GGally
 
-19. Stan Development Team (2022a) *Stan* URL (cited on August 18, 2022): https://mc-stan.org
+18. Stan Development Team (2022a) *Stan* URL (cited on August 18, 2022): https://mc-stan.org
 
-20. Stan Development Team (2022b) rstan: R interface to Stan (R package version 2.21.5) URL (cited on August 17, 2022): https://CRAN.R-project.org/package=rstan
+19. Stan Development Team (2022b) rstan: R interface to Stan (R package version 2.21.5) URL (cited on August 17, 2022): https://CRAN.R-project.org/package=rstan
 
-21. A Vehtari, J Gabry, M Magnusson, Y Yao, P Bürkner, T Paananen and A Gelman (2022) loo: Efficient leave-one-out cross-validation and WAIC for Bayesian models (R package version 2.5.1) URL (cited on August 20, 2022): https://mc-stan.org/loo/
+20. A Vehtari, J Gabry, M Magnusson, Y Yao, P Bürkner, T Paananen and A Gelman (2022) loo: Efficient leave-one-out cross-validation and WAIC for Bayesian models (R package version 2.5.1) URL (cited on August 20, 2022): https://mc-stan.org/loo/
 
-22. H Wickham, M Averick, J Bryan, W Chang, L D McGowan, R François, G Grolemund, A Hayes, L Henry, J Hester, M Kuhn, T L Pedersen, E Miller, S M Bache, K Müller, J Ooms, D Robinson, D P Seidel, V Spinu, K Takahashi, D Vaughan, C Wilke, K Woo and H Yutani (2019) Welcome to the tidyverse *Journal of Open Source Software* **4** (43) 1686 DOI: https://doi.org/10.21105/joss.01686
+21. H Wickham, M Averick, J Bryan, W Chang, L D McGowan, R François, G Grolemund, A Hayes, L Henry, J Hester, M Kuhn, T L Pedersen, E Miller, S M Bache, K Müller, J Ooms, D Robinson, D P Seidel, V Spinu, K Takahashi, D Vaughan, C Wilke, K Woo and H Yutani (2019) Welcome to the tidyverse *Journal of Open Source Software* **4** (43) 1686 DOI: https://doi.org/10.21105/joss.01686
 
-23. H Wickham H and D Seidel (2022) scales: Scale functions for visualization (R package version 1.2.0) URL (cited on August 27, 2022): https://CRAN.R-project.org/package=scales
+22. H Wickham H and D Seidel (2022) scales: Scale functions for visualization (R package version 1.2.0) URL (cited on August 27, 2022): https://CRAN.R-project.org/package=scales
 
 # Information on current R session
   

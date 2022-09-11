@@ -2572,7 +2572,7 @@ rm(dataList, draws, stanGARCH_1_1_NormFixed)
 
 # References
 
-1. E Anderson (1935) The irises of the Gaspe Peninsula *Bulletin of the American Iris Society* **59** 2-5
+1. E Anderson (1935) The irises of the Gaspé Peninsula *Bulletin of the American Iris Society* **59** 2-5
 
 2. S Bache and H Wickham (2022) magrittr: A forward-pipe operator for R (R package version 2.0.3) URL (cited on August 18, 2022): https://CRAN.R-project.org/package=magrittr
 

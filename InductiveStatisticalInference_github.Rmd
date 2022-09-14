@@ -59,8 +59,8 @@ rstan::stan_version()
 ### Data and visualisation
 
 **data set** `ashenfelter.RData` by Ashenfelter, Ashmore and Lalonde, URL (cited
-on August 17, 2022): http://www.liquidasset.com/; cf. Kahneman (2011). Check
-for and remove NAs.
+on August 17, 2022): http://www.liquidasset.com/; cf. Kahneman (2011): 223-224. 
+Check for and remove NAs.
 
 ```{r dataLinRegNormFixed}
 load("ashenfelter.RData")
